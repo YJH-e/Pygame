@@ -41,11 +41,23 @@ while not done:
     # -- Game logic goes after this comment
     # -- Screen background is BLACK 
 
-    #rectangle(screen, COLOUR, (x-coordinate for start point, y-coordinate for start point, width, height), thickness)
-    pygame.draw.rect(screen, WHITE, (220,300,150,150),20)
+    #rectangle(surface, colour, (x-coordinate for start point, y-coordinate for start point, width, height), thickness)
+    pygame.draw.rect(screen, WHITE, (250,150,150,150),20)
     pygame.draw.rect(screen, WHITE, (100,300,50,50),2)
-    #circle(screen, COLOUR, (x-coordinate for centre, y-coordinate for centre), radius, circle border thickness)
-    pygame.draw.circle(screen, ORANGE, (75,100),150,1) 
+    
+    #circle(surface, colour, (x-coordinate for centre, y-coordinate for centre), radius, circle border thickness)
+    pygame.draw.circle(screen, ORANGE, (75,100), 150, 1)
+    
+    #pygame.draw.line(surface, colour, start_pos, end_pos, width): draw a straight
+    pygame.draw.line(screen, RED, (200, 200), (200, 300), 5)
+
+    #pygame.draw.lines(surface, color, closed, points, width=1): draw multiple contiguous straight line
+    pygame.draw.lines(screen, RED, True, [(340, 180), (300,250), (380,250)])
+
+    #pygame.draw.polygon(surface, color, points)
+    pygame.draw.polygon(screen, RED, [(460, 180), (420,250), (500,250)], 5)
+
+
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
     # - The clock ticks over 
