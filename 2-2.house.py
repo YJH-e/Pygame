@@ -1,4 +1,4 @@
-#PYGAME START-UP
+    #PYGAME START-UP
 
 import pygame 
 # -- Global Constants 
@@ -7,22 +7,16 @@ BLACK = (0,0,0)
 WHITE = (255,255,255) 
 BLUE = (50,50,255) 
 YELLOW = (255,255,0) 
+LIGHTBLUE = (173,216,230)
 # -- Initialise PyGame
 pygame.init() 
-# -- Blank Screen
-# declare screen size as variables
-screen_x = 640
-screen_y = 480
-size = (screen_x,screen_y) 
+# -- Blank Screen 
+size = (1024,512) 
 screen = pygame.display.set_mode(size) 
 # -- Title of new window/screen 
 pygame.display.set_caption("My Window") 
 # -- Exit game flag set to false 
 done = False
-
-#introduce some game logic
-sun_x = 40
-sun_y = 100
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()
 
@@ -39,16 +33,17 @@ while not done:
     # -- Game logic goes after this comment
     # -- Screen background is BLACK 
     screen.fill (BLACK) 
-    # -- Draw here 
-    pygame.draw.rect(screen, BLUE, (220,165,200,150)) 
-    pygame.draw.circle(screen, YELLOW, (sun_x, sun_y),40,0)
-    
-    #retrieve sun
-    if sun_x != screen_x + 40:
-        sun_x = sun_x + 5
-    elif sun_x == screen_x + 40:
-        sun_x = -40
-    #endif
+    # -- Draw mansion
+    pygame.draw.rect(screen, LIGHTBLUE, (362,350,300,150))
+    # mansion windows
+    pygame.draw.rect(screen, WHITE, (382, 360, 60, 50))
+    pygame.draw.rect(screen, WHITE, (382, 435, 60, 50))
+    pygame.draw.rect(screen, WHITE, (582, 360, 60, 50))
+    pygame.draw.rect(screen, WHITE, (582, 435, 60, 50))
+    #mansion doors
+    pygame.draw.rect(screen, WHITE, (467, 430, 40, 70))
+    pygame.draw.rect(screen, WHITE, (517, 430, 40, 70))
+
     
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
