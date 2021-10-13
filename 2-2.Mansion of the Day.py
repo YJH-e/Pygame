@@ -57,9 +57,9 @@ while not done:
             screen.fill (LIGHTBLUE)
             # -- Draw Orange Giant (sun)
             pygame.draw.circle(screen, ORANGE, (sun_x, sun_y),200)
-            sun_x = sun_x + 2
+            sun_x = sun_x + 4
             sun_y = 1/1024*(sun_x - 512)**2 + 200
-        elif sun_x == screen_x + 100:
+        else:
             sun_x == -100
             moon_round = True
             sun_round = False
@@ -68,13 +68,13 @@ while not done:
 
     if moon_round == True:
         #get moon
-        if moon_x != screen_x + 18:
+        if moon_x != screen_x + 20:
             screen.fill(DARKBLUE)
             #draw moon
             pygame.draw.circle(screen, MOONWHITE, (moon_x, moon_y),20)
-            moon_x = moon_x + 2
+            moon_x = moon_x + 4
             moon_y = 1/1024*(moon_x - 512)**2 + 200
-        elif moon_x == screen_x + 18:
+        else:
             moon_x == -20
             sun_round == True
             moon_round == False
