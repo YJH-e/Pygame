@@ -44,42 +44,30 @@ while not done:
         #End If
     #Next event
     # -- Game logic goes after this comment
-
-    
-
-
-    sun_round = True
-    moon_round = False
-
-    if sun_round == True:
-        #retrieve sun
-        if sun_x != screen_x + 100:
-            screen.fill (LIGHTBLUE)
-            # -- Draw Orange Giant (sun)
-            pygame.draw.circle(screen, ORANGE, (sun_x, sun_y),200)
-            sun_x = sun_x + 4
-            sun_y = 1/1024*(sun_x - 512)**2 + 200
-        else:
-            sun_x == -100
-            moon_round = True
-            sun_round = False
-        #endif
-    #endif
-
-    if moon_round == True:
-        #get moon
+    #retrieve sun
+    if sun_x != screen_x + 200:
+        screen.fill (LIGHTBLUE)
+        # -- Draw Orange Giant (sun)
+        pygame.draw.circle(screen, ORANGE, (sun_x, sun_y),200)
+        sun_x = sun_x + 2
+        sun_y = 1/1024*(sun_x - 512)**2 + 200
+    elif sun_x == screen_x + 200:
+        sun_x = -200
         if moon_x != screen_x + 20:
             screen.fill(DARKBLUE)
             #draw moon
             pygame.draw.circle(screen, MOONWHITE, (moon_x, moon_y),20)
-            moon_x = moon_x + 4
+            moon_x = moon_x + 2
             moon_y = 1/1024*(moon_x - 512)**2 + 200
-        else:
+        elif moon_x == screen_x + 20:
             moon_x == -20
-            sun_round == True
-            moon_round == False
         #endif
     #endif
+
+
+
+
+
 
 
     # -- Draw mansion
