@@ -9,8 +9,11 @@ BLUE = (50,50,255)
 YELLOW = (255,255,0) 
 # -- Initialise PyGame
 pygame.init() 
+
+x_size = 640
+y_size = 480
 # -- Blank Screen 
-size = (640,480) 
+size = (x_size,y_size) 
 screen = pygame.display.set_mode(size) 
 # -- Title of new window/screen 
 pygame.display.set_caption("Pong") 
@@ -42,6 +45,17 @@ while not done:
     pygame.draw.rect(screen, BLUE, (x_val,y_val,ball_width,ball_width)) 
     x_val += x_direction
     y_val += y_direction
+
+    #bounce by reversing direction
+    if x_val >= x_size - 20 or x_val <= 0:
+        x_direction = -x_direction
+    #endif
+    if y_val >= y_size - 20 or y_val <= 0:
+        y_direction = -y_direction
+    #endif
+
+
+
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
     # - The clock ticks over 
