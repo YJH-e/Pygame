@@ -40,6 +40,7 @@ padd_width = 60
 
 #paddle speed
 y_speed = 0
+speed_val = 5
 ### -- Game Loop 
 while not done: 
     # -- User input and controls
@@ -49,26 +50,35 @@ while not done:
         #endif
 
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP and y_padd >= 0:
-                y_speed = -5
-            elif event.key == pygame.K_DOWN and y_padd <= y_size -60:
-                y_speed = 5
+            if event.key == pygame.K_UP:
+                y_speed = -speed_val
+            elif event.key == pygame.K_DOWN:
+                y_speed = speed_val
             #endif
         
 
         # User let up on a key
         elif event.type == pygame.KEYUP:
             
-            if event.key == pygame.K_UP or y_padd >= 0:
+            if event.key == pygame.K_UP:
                 y_speed = 0
             #endif
-            if event.key == pygame.K_DOWN or y_padd <= y_size -60:
+            if event.key == pygame.K_DOWN:
                 y_speed = 0  
             #endif                
         #End If
     #Next event
     
-    y_padd = y_padd + y_speed * 1
+    #move paddle within screen
+    if y_padd >= 5 and y_padd <= y_size - 65:
+        y_padd = y_padd + y_speed * 1
+    elif y_padd == 0 and y_speed > 0:
+        y_padd = y_padd + y_speed * 1
+    elif y_padd == y_size - 60 and y_speed < 0:
+        y_padd = y_padd + y_speed * 1
+    #endif
+
+    
 
     # -- Game logic goes after this comment
     # -- Screen background is BLACK 

@@ -49,17 +49,18 @@ while not done:
             done = True
         #endif
 
+        #paddle control
+
+        #user press down on a key
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
                 y_speed = -speed_val
             elif event.key == pygame.K_DOWN:
                 y_speed = speed_val
             #endif
-        
 
         # User let up on a key
-        elif event.type == pygame.KEYUP:
-            
+        elif event.type == pygame.KEYUP:          
             if event.key == pygame.K_UP:
                 y_speed = 0
             #endif
@@ -68,7 +69,11 @@ while not done:
             #endif                
         #End If
     #Next event
-    
+
+    # -- Game logic goes after this comment
+    # -- Screen background is BLACK 
+    screen.fill (BLACK) 
+
     #move paddle within screen
     if y_padd >= 5 and y_padd <= y_size - 65:
         y_padd = y_padd + y_speed * 1
@@ -76,31 +81,36 @@ while not done:
         y_padd = y_padd + y_speed * 1
     elif y_padd == y_size - 60 and y_speed < 0:
         y_padd = y_padd + y_speed * 1
-    #endif
+    #endif   
 
+
+    #draw paddle
+    pygame.draw.rect(screen, WHITE, (x_padd, y_padd, padd_length, padd_width))
     
-
-    # -- Game logic goes after this comment
-    # -- Screen background is BLACK 
-    screen.fill (BLACK) 
-    # -- Draw here 
+    #draw ball
     pygame.draw.rect(screen, BLUE, (x_val,y_val,ball_width,ball_width)) 
     x_val += x_direction
     y_val += y_direction
 
-    #bounce by reversing direction
-    if x_val >= x_size - 20 or x_val <= 0:
+    #ball bounce by reversing direction
+    #bounce on opposite wall (right) of screen
+    if x_val >= x_size - 20:
         x_direction = -x_direction
+    #bounce on paddle
+    elif x_val == 15 and y_val > y_padd and y_val < y_padd + 60:
+        x_direction = -x_direction
+    #paddle missed ball
+    elif x_val < 0:
+        x_val = 150
+        y_val = 200
+    
+   
     #endif
+    
+    #bounce on side
     if y_val >= y_size - 20 or y_val <= 0:
         y_direction = -y_direction
     #endif
-
-    
-    pygame.draw.rect(screen, WHITE, (x_padd, y_padd, padd_length, padd_width))
-
-
-
 
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
