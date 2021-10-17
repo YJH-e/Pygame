@@ -23,14 +23,16 @@ done = False
 clock = pygame.time.Clock()
 
 
-# PYGAME LOOP
-
 #ball
 ball_width = 20
 x_val = 150
 y_val = 200
-x_direction = 5
-y_direction = 5
+x_direction = 0
+y_direction = 0
+
+#initialise number of times ball is hit
+hit = 0
+modCount = 0
 
 #paddle
 x_padd = 0
@@ -40,9 +42,16 @@ padd_width = 60
 
 #paddle speed
 y_speed = 0
-speed_val = 5
+
+#initialise life
+lifeLeft = 3
+
+#text display
+font = pygame.font.SysFont("monospace", 15)
+
+# PYGAME LOOP
 ### -- Game Loop 
-while not done: 
+while not done and lifeLeft > 0: 
     # -- User input and controls
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
@@ -54,9 +63,9 @@ while not done:
         #user press down on a key
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_UP:
-                y_speed = -speed_val
+                y_speed = -5
             elif event.key == pygame.K_DOWN:
-                y_speed = speed_val
+                y_speed = 5
             #endif
 
         # User let up on a key
@@ -97,19 +106,57 @@ while not done:
     if x_val >= x_size - 20:
         x_direction = -x_direction
     #bounce on paddle
-    elif x_val == 15 and y_val > y_padd and y_val < y_padd + 60:
+    elif x_val == 15 and y_val >= y_padd - 20 and y_val <= y_padd + 60:
         x_direction = -x_direction
+        hit += 1
+        modCount = 0
+    elif x_val == 10 and y_val >= y_padd - 20 and y_val <= y_padd + 60:
+        x_direction = -x_direction
+        hit += 1
+        modCount = 0
     #paddle missed ball
     elif x_val < 0:
         x_val = 150
         y_val = 200
-    
-   
+        if x_direction < 0:
+            x_direction = -x_direction
+        #endif
+        if y_direction < 0:
+            y_direction = -y_direction
+        #endif
+        lifeLeft = lifeLeft - 1
     #endif
     
     #bounce on side
     if y_val >= y_size - 20 or y_val <= 0:
         y_direction = -y_direction
+    #endif
+
+    #text display
+    if lifeLeft == 3:
+        life = font.render("life left: 3", 1, WHITE)
+        screen.blit(life,(x_size - 200, 20))
+    elif lifeLeft == 2:
+        life = font.render("life left: 2", 1, WHITE)
+        screen.blit(life,(x_size - 200, 20))
+    elif lifeLeft == 1:
+        life = font.render("life left: 1", 1, WHITE)
+        screen.blit(life,(x_size - 200, 20))
+    #endif
+
+    #change ball speed
+    if hit%5 == 0 and modCount == 0:
+        if x_direction >= 0:
+            x_direction = x_direction + 5
+        else:
+            x_direction = x_direction - 5
+        #endif
+        if y_direction >= 0:
+            y_direction = y_direction + 5
+        else:
+            y_direction = y_direction - 5
+        #endif
+        modCount += 1
     #endif
 
     # -- flip display to reveal new position of objects 
