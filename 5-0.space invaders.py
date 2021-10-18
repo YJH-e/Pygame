@@ -18,7 +18,7 @@ y_size = 480
 size = (x_size,y_size) 
 screen = pygame.display.set_mode(size) 
 # -- Title of new window/screen 
-pygame.display.set_caption("Snow") 
+pygame.display.set_caption("Space Invaders") 
 # -- Exit game flag set to false 
 done = False
 
