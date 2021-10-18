@@ -85,13 +85,25 @@ invader_group = pygame.sprite.Group()
 # Create a list of all sprites 
 all_sprites_group = pygame.sprite.Group()
 
-# Create the snowflakes 
+# Create the invaders
 number_of_invaders = 10 # we are creating 10 invaders
 for x in range (number_of_invaders): 
-    invaders = Invader(BLUE, invaderSize, invaderSize, 1) # snowflakes are white with size 5 by 5 px
-    invader_group.add (invaders) # adds the new snowflake to the group of snowflakes
+    invaders = Invader(BLUE, invaderSize, invaderSize, 1)
+    invader_group.add (invaders) # adds the new invader to the group of invaders
     all_sprites_group.add (invaders) # adds it to the group of all Sprites
 #Next x
+
+# Create the player
+number_of_players = 1 # we are creating 10 invaders
+for y in range (number_of_players): 
+    player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
+    all_sprites_group.add (player) # adds it to the group of all Sprites
+#Next y
+
+
+
+
+
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()
 
@@ -101,7 +113,18 @@ while not done:
     # -- User input and controls
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
-            done = True 
+            done = True
+        elif event.type == pygame.KEYDOWN: # - a key is down 
+            if event.key == pygame.K_LEFT: # - if the left key pressed 
+                player.player_set_speed(-3) # speed set to -3
+            elif event.key == pygame.K_RIGHT: # - if the right key pressed
+                player.player_set_speed(3) # speed set to 3
+            #endif
+        elif event.type == pygame.KEYUP: # - a key released 
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT: 
+                    player.player_set_speed(0) # speed set to 0
+                #endif
+            #endif
         #End If
     #Next event
     # -- Game logic goes after this comment
