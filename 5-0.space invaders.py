@@ -22,9 +22,9 @@ pygame.display.set_caption("Snow")
 # -- Exit game flag set to false 
 done = False
 
-
+invaderSize = 10
 ## -- Define the class snow which is a sprite 
-class Snow(pygame.sprite.Sprite): 
+class Invader(pygame.sprite.Sprite): 
     # Define the constructor for snow 
     def __init__(self, color, width, height, speed):
         # Call the sprite constructor 
@@ -34,8 +34,8 @@ class Snow(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, x_size - 5) 
-        self.rect.y = random.randrange(0, y_size)
+        self.rect.x = random.randrange(0, x_size - invaderSize) 
+        self.rect.y = random.randrange(-50, 0)
 
         # Set speed of the sprite 
         self.speed = speed
@@ -44,21 +44,53 @@ class Snow(pygame.sprite.Sprite):
     # Class update function - runs for each pass through the game loop 
     def update(self): 
         self.rect.y = self.rect.y + self.speed
+        #make snowflake reappear on top of screen after falling pass bottom
+        if self.rect.y > y_size:
+            self.rect.y = self.rect.y - y_size - invaderSize
+        #endif
+    #endprocedure
+#End Class
+
+## -- Define the class snow which is a sprite 
+class Player(pygame.sprite.Sprite): 
+    # Define the constructor for snow 
+    def __init__(self, color, width, height):
+        # Call the sprite constructor 
+        super().__init__() 
+        # Create a sprite and fill it with colour 
+        self.image = pygame.Surface([width,height]) 
+        self.image.fill(color) 
+        # Set the position of the sprite 
+        self.rect = self.image.get_rect() 
+        self.rect.x = 300 
+        self.rect.y = size[0] - height
+
+        # Set speed of the sprite 
+        self.speed = 0
+    #End Procedure
+    
+    # Class update function - runs for each pass through the game loop 
+    def update(self): 
+        self.rect.y = self.rect.y + self.speed
+        #make snowflake reappear on top of screen after falling pass bottom
+        if self.rect.y > y_size:
+            self.rect.y = self.rect.y - y_size - invaderSize
+        #endif
     #endprocedure
 #End Class
 
 # Create a list of the snow blocks 
-snow_group = pygame.sprite.Group()
+invader_group = pygame.sprite.Group()
 
 # Create a list of all sprites 
 all_sprites_group = pygame.sprite.Group()
 
 # Create the snowflakes 
-number_of_flakes = 50 # we are creating 50 snowflakes
-for x in range (number_of_flakes): 
-    my_snow =Snow(WHITE, 5, 5, 1) # snowflakes are white with size 5 by 5 px
-    snow_group.add (my_snow) # adds the new snowflake to the group of snowflakes
-    all_sprites_group.add (my_snow) # adds it to the group of all Sprites
+number_of_invaders = 10 # we are creating 10 invaders
+for x in range (number_of_invaders): 
+    invaders = Invader(BLUE, invaderSize, invaderSize, 1) # snowflakes are white with size 5 by 5 px
+    invader_group.add (invaders) # adds the new snowflake to the group of snowflakes
+    all_sprites_group.add (invaders) # adds it to the group of all Sprites
 #Next x
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()

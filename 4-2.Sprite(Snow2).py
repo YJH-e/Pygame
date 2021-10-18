@@ -22,6 +22,7 @@ pygame.display.set_caption("Snow")
 # -- Exit game flag set to false 
 done = False
 
+flakeSize = 5
 
 ## -- Define the class snow which is a sprite 
 class Snow(pygame.sprite.Sprite): 
@@ -34,7 +35,7 @@ class Snow(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, x_size) 
+        self.rect.x = random.randrange(0, x_size - flakeSize) 
         self.rect.y = random.randrange(0, y_size)
 
         # Set speed of the sprite 
@@ -46,7 +47,7 @@ class Snow(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.speed
         #make snowflake reappear on top of screen after falling pass bottom
         if self.rect.y > y_size:
-            self.rect.y = self.rect.y - y_size - 5
+            self.rect.y = self.rect.y - y_size - flakeSize
         #endif
     #endprocedure
 #End Class
@@ -60,7 +61,7 @@ all_sprites_group = pygame.sprite.Group()
 # Create the snowflakes 
 number_of_flakes = 50 # we are creating 50 snowflakes
 for x in range (number_of_flakes): 
-    my_snow =Snow(WHITE, 5, 5, 1) # snowflakes are white with size 5 by 5 px
+    my_snow =Snow(WHITE, flakeSize, flakeSize, 1) # snowflakes are white with size 5 by 5 px
     snow_group.add (my_snow) # adds the new snowflake to the group of snowflakes
     all_sprites_group.add (my_snow) # adds it to the group of all Sprites
 #Next x
