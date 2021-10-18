@@ -88,11 +88,11 @@ while not done and lifeLeft > 0:
 
     #move paddle within screen
     if y_padd >= 5 and y_padd <= y_size - 65:
-        y_padd = y_padd + y_speed * 1
+        y_padd = y_padd + y_speed
     elif y_padd == 0 and y_speed > 0:
-        y_padd = y_padd + y_speed * 1
+        y_padd = y_padd + y_speed
     elif y_padd == y_size - 60 and y_speed < 0:
-        y_padd = y_padd + y_speed * 1
+        y_padd = y_padd + y_speed
     #endif   
 
 

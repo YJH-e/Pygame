@@ -16,8 +16,10 @@ BLUE = (50,50,255)
 YELLOW = (255,255,0) 
 # -- Initialise PyGame
 pygame.init() 
-# -- Blank Screen 
-size = (640,480) 
+# -- Blank Screen
+x_size = 640
+y_size = 480
+size = (x_size,y_size) 
 screen = pygame.display.set_mode(size) 
 # -- Title of new window/screen 
 pygame.display.set_caption("Snow") 
@@ -35,8 +37,8 @@ class Snow(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, 600) 
-        self.rect.y = random.randrange(0, 400)
+        self.rect.x = random.randrange(0, x_size) 
+        self.rect.y = random.randrange(0, y_size)
     #End Procedure
 #End Class
 
