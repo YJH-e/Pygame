@@ -49,6 +49,9 @@ lifeLeft = 3
 #text display
 font = pygame.font.SysFont("monospace", 15)
 
+
+
+
 # PYGAME LOOP
 ### -- Game Loop 
 while not done and lifeLeft > 0: 
