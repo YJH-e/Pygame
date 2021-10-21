@@ -23,9 +23,9 @@ pygame.display.set_caption("Space Invaders")
 done = False
 
 invaderSize = 10
-## -- Define the class invader which is a sprite 
+## -- Define the class Invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
-    # Define the constructor for snow 
+    # Define the constructor for Invader
     def __init__(self, color, width, height, speed):
         # Call the sprite constructor 
         super().__init__() 
@@ -44,7 +44,7 @@ class Invader(pygame.sprite.Sprite):
     # Class update function - runs for each pass through the game loop 
     def update(self): 
         self.rect.y = self.rect.y + self.speed
-        #make snowflake reappear on top of screen after falling pass bottom
+        #make invader reappear on top of screen after falling pass bottom
         if self.rect.y > y_size:
             self.rect.y = self.rect.y - y_size - invaderSize
         #endif
@@ -52,10 +52,10 @@ class Invader(pygame.sprite.Sprite):
 #End Class
 
 
-x_speed = 0
-## -- Define the class player which is a sprite 
+
+## -- Define the class Player which is a sprite 
 class Player(pygame.sprite.Sprite): 
-    # Define the constructor for snow 
+    # Define the constructor for Player 
     def __init__(self, color, width, height):
         # Call the sprite constructor 
         super().__init__() 
@@ -68,14 +68,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = size[0] - height
 
         # Set speed of the sprite 
-        self.speed = 0
+        x_speed = 0
     #End Procedure
    
 
     # Class update function - runs for each pass through the game loop 
     def update(self): 
         self.rect.x = self.rect.x + x_speed
-        #make snowflake reappear on top of screen after falling pass bottom
         
     #endprocedure
 #End Class
@@ -100,8 +99,6 @@ for y in range (number_of_players):
     player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
     all_sprites_group.add (player) # adds it to the group of all Sprites
 #Next y
-
-
 
 
 
