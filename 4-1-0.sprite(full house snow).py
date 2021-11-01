@@ -37,9 +37,14 @@ class Snow(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, x_size) 
-        self.rect.y = random.randrange(0, y_size)
-    #End Procedure
+        self.rect.x = random.randrange(0, x_size-5) 
+        self.rect.y = random.randrange(0, y_size-5)
+
+        #get temporary coordinates
+        temp_x = self.rect.x
+        temp_y = self.rect.y
+        return temp_x, temp_y
+    #End Function
 #End Class
 
 # Create a list of the snow blocks 
@@ -53,13 +58,14 @@ reCreate = False
 number_of_flakes = 50 # we are creating 50 snowflakes
 for x in range (number_of_flakes): 
     my_snow = Snow(WHITE, 5, 5) # snowflakes are white with size 5 by 5 px
-    
+    temp_x, temp_y =
     #recreate snow flake if the new snowflake overlaps or is adjacent to a previously created snowflake
     if x > 0:
-        count = 0
-        for count in all_sprites_group:
-            if my_snow == all_sprites_group(count):
-                my_snow = Snow(WHITE, 5, 5) # recreate snowflake
+        for self in all_sprites_group:
+            if temp_x == self.rect.x - 5 or temp_x == self.rect.x + 5:
+                if temp_y == self.rect.y -5 or temp_y == self.rect.y + 5:
+                    my_snow = Snow(WHITE, 5, 5) # recreate snowflake
+                #endif
             #endif
         #next
     #endif

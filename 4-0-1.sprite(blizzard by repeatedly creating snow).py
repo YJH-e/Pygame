@@ -35,8 +35,8 @@ class Snow(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, x_size) 
-        self.rect.y = random.randrange(0, y_size)
+        self.rect.x = random.randrange(0, x_size-5) 
+        self.rect.y = random.randrange(0, y_size-5)
         
     #End Procedure
 #End Class
