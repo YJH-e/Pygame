@@ -58,7 +58,7 @@ reCreate = False
 number_of_flakes = 50 # we are creating 50 snowflakes
 for x in range (number_of_flakes): 
     my_snow = Snow(WHITE, 5, 5) # snowflakes are white with size 5 by 5 px
-    temp_x, temp_y =
+    temp_x, temp_y = ########################################################################################################how to get a value from init?
     #recreate snow flake if the new snowflake overlaps or is adjacent to a previously created snowflake
     if x > 0:
         for self in all_sprites_group:

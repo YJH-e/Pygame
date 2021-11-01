@@ -51,25 +51,36 @@ while not done:
         pygame.draw.circle(screen, ORANGE, (sun_x, sun_y),200)
         sun_x = sun_x + 4
         sun_y = 1/1024*(sun_x - 512)**2 + 200
+        # -- Draw mansion
+        pygame.draw.rect(screen, OAK, (362,350,300,150))
+        # mansion windows
+        pygame.draw.rect(screen, WHITE, (382, 360, 60, 50))
+        pygame.draw.rect(screen, WHITE, (382, 435, 60, 50))
+        pygame.draw.rect(screen, WHITE, (582, 360, 60, 50))
+        pygame.draw.rect(screen, WHITE, (582, 435, 60, 50))
+        #mansion doors
+        pygame.draw.rect(screen, WHITE, (467, 430, 40, 70))
+        pygame.draw.rect(screen, WHITE, (517, 430, 40, 70))
     elif sun_x <= screen_x + 1224:
         screen.fill(DARKBLUE)
         sun_x = sun_x + 4
         sun_y = 1/1024*(sun_x - 512)**2 + 200
+        # -- Draw mansion
+        pygame.draw.rect(screen, OAK, (362,350,300,150))
+        # mansion windows
+        pygame.draw.rect(screen, YELLOW, (382, 360, 60, 50))
+        pygame.draw.rect(screen, YELLOW, (382, 435, 60, 50))
+        pygame.draw.rect(screen, YELLOW, (582, 360, 60, 50))
+        pygame.draw.rect(screen, YELLOW, (582, 435, 60, 50))
+        #mansion doors
+        pygame.draw.rect(screen, WHITE, (467, 430, 40, 70))
+        pygame.draw.rect(screen, WHITE, (517, 430, 40, 70))
     else:
         sun_x = -200
         screen.fill(LIGHTBLUE)
 
     #endif
-    # -- Draw mansion
-    pygame.draw.rect(screen, OAK, (362,350,300,150))
-    # mansion windows
-    pygame.draw.rect(screen, WHITE, (382, 360, 60, 50))
-    pygame.draw.rect(screen, WHITE, (382, 435, 60, 50))
-    pygame.draw.rect(screen, WHITE, (582, 360, 60, 50))
-    pygame.draw.rect(screen, WHITE, (582, 435, 60, 50))
-    #mansion doors
-    pygame.draw.rect(screen, WHITE, (467, 430, 40, 70))
-    pygame.draw.rect(screen, WHITE, (517, 430, 40, 70))
+    
 
     
     # -- flip display to reveal new position of objects 
