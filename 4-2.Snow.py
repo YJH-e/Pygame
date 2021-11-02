@@ -22,6 +22,11 @@ pygame.display.set_caption("Snow")
 # -- Exit game flag set to false 
 done = False
 
+# Create a list of x_coordinates of snow flakes
+x_co = []
+
+# Create a list of y_coordinates of snow flakes
+y_co = []
 
 ## -- Define the class snow which is a sprite 
 class Snow(pygame.sprite.Sprite): 
@@ -36,6 +41,20 @@ class Snow(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() 
         self.rect.x = random.randrange(0, x_size - 5) 
         self.rect.y = random.randrange(0, y_size)
+
+        #recreate snowflake starting coordinate if the new snowflake overlaps or is adjacent to a previously created snowflake
+        flakeNum = 0
+        for flakeNum in range (0, len(x_co)):
+            #checks if new snowflake is adjacent or overlapping a previous snowflake
+            while self.rect.x <= x_co[flakeNum] + 5 and self.rect.x >= x_co[flakeNum] - 5 and self.rect.y <= y_co[flakeNum] + 5 and self.rect.y >= y_co[flakeNum] - 5:
+                self.rect.x = random.randrange(0, x_size-5) 
+                self.rect.y = random.randrange(0, y_size-5)
+            #endwhile
+        #next
+
+        #add coordinate of new snowflake to coordinate lists
+        x_co.append(self.rect.x)
+        y_co.append(self.rect.y)
 
         # Set speed of the sprite 
         self.speed = speed

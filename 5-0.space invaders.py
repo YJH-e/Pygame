@@ -22,6 +22,13 @@ pygame.display.set_caption("Space Invaders")
 # -- Exit game flag set to false 
 done = False
 
+
+# Create a list of x_coordinates of invaders
+x_co = []
+
+# Create a list of y_coordinates of invaders
+y_co = []
+
 invaderSize = 10
 ## -- Define the class snow which is a sprite 
 class Invader(pygame.sprite.Sprite): 
@@ -36,6 +43,20 @@ class Invader(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() 
         self.rect.x = random.randrange(0, x_size - invaderSize) 
         self.rect.y = random.randrange(-50, 0)
+
+         #recreate snowflake starting coordinate if the new invader overlaps or is adjacent to a previously created invader
+        ivdNum = 0
+        for invNum in range (0, len(x_co)):
+            #checks if new inavder is adjacent or overlapping a previous invader
+            while self.rect.x <= x_co[invNum] + invaderSize and self.rect.x >= x_co[invNum] - invaderSize and self.rect.y <= y_co[invNum] + invaderSize and self.rect.y >= y_co[invNum] - invaderSize:
+                self.rect.x = random.randrange(0, x_size - invaderSize) 
+                self.rect.y = random.randrange(-50, 0)
+            #endwhile
+        #next
+
+        #add coordinate of new snowflake to coordinate lists
+        x_co.append(self.rect.x)
+        y_co.append(self.rect.y)
 
         # Set speed of the sprite 
         self.speed = speed
@@ -64,6 +85,9 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect() 
         self.rect.x = 300 
         self.rect.y = size[0] - height
+
+        
+
 
         # Set speed of the sprite 
         self.speed = 0
