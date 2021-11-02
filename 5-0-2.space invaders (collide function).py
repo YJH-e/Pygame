@@ -29,8 +29,13 @@ x_co = []
 # Create a list of y_coordinates of invaders
 y_co = []
 
+# create player position globally. The value they hold does not matter until they are being assigned
+x_pos = 0
+y_pos = 0
+
 #initialise x_speed for player
 x_speed = 0
+y_speed = 0
 
 invaderSize = 10
 ## -- Define the class invader which is a sprite 
@@ -47,7 +52,7 @@ class Invader(pygame.sprite.Sprite):
         self.rect.x = random.randrange(0, x_size - invaderSize) 
         self.rect.y = random.randrange(-50, 0)
 
-         #recreate snowflake starting coordinate if the new invader overlaps or is adjacent to a previously created invader
+        #recreate invader starting coordinate if the new invader overlaps or is adjacent to a previously created invader
         ivdNum = 0
         for invNum in range (0, len(x_co)):
             #checks if new inavder is adjacent or overlapping a previous invader
@@ -89,14 +94,20 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 300 
         self.rect.y = y_size - 100
 
+        x_pos = self.rect.x
+        y_pos = self.rect.y
+
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
-        #keep player within screen
+        #keep player within screen while moving player
         if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
             self.rect.x = self.rect.x + x_speed
-        
+            x_pos = self.rect.x
+        if (self.rect.y >= 3 and self.rect.y <= y_size - 13) or (self.rect.y <= 3 and y_speed > 0) or (self.rect.y >= y_size - 13 and y_speed < 0):
+            self.rect.y = self.rect.y + y_speed
+            y_pos = self.rect.y
         #endif
     #endprocedure
 #End Class
@@ -117,7 +128,7 @@ for x in range (number_of_invaders):
 
 # Create the player
 number_of_players = 1 # we are creating 10 invaders
-for y in range (number_of_players): 
+for y in range (number_of_players):
     player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
     all_sprites_group.add (player) # adds it to the group of all Sprites
 #Next y
@@ -141,18 +152,38 @@ while not done:
                 x_speed = -3 # speed set to -3
             elif event.key == pygame.K_RIGHT: # - if the right key pressed
                 x_speed = 3 # speed set to 3
+            elif event.key == pygame.K_UP:
+                y_speed = -3
+            elif event.key == pygame.K_DOWN:
+                y_speed = 3
+            elif event.key == pygame.K_SPACE: #stop player completely
+                x_speed = 0
+                y_speed = 0
+            elif event.key == pygame.K_h: #stop player horizontally
+                x_speed = 0
+            elif event.key == pygame.K_v: # stop player vertically
+                y_speed = 0
             #endif
-        elif event.type == pygame.KEYUP: # - a key released 
-                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT: 
-                    x_speed = 0 # speed set to 0
-                #endif
+        
             #endif
         #End If
     #Next event
     # -- Game logic goes after this comment
 
     # -- Game logic goes in here 
-    all_sprites_group.update() 
+    all_sprites_group.update()
+    # Game logic of player hitting invader
+
+    #player-invader collision
+    
+    #####################################call some function here
+    
+    # -- when invader hits the player add 5 to score. 
+    player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
+
+
+
+    
     # -- Screen background is BLACK 
     screen.fill(BLACK) 
     # -- Drawing code goes here
