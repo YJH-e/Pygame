@@ -29,8 +29,11 @@ x_co = []
 # Create a list of y_coordinates of invaders
 y_co = []
 
+#initialise x_speed for player
+x_speed = 0
+
 invaderSize = 10
-## -- Define the class snow which is a sprite 
+## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
     # Define the constructor for snow 
     def __init__(self, color, width, height, speed):
@@ -72,7 +75,7 @@ class Invader(pygame.sprite.Sprite):
     #endprocedure
 #End Class
 
-## -- Define the class snow which is a sprite 
+## -- Define the class player which is a sprite 
 class Player(pygame.sprite.Sprite): 
     # Define the constructor for snow 
     def __init__(self, color, width, height):
@@ -84,21 +87,16 @@ class Player(pygame.sprite.Sprite):
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
         self.rect.x = 300 
-        self.rect.y = size[0] - height
+        self.rect.y = y_size - 100
 
-        
-
-
-        # Set speed of the sprite 
-        self.speed = 0
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
-    def update(self): 
-        self.rect.y = self.rect.y + self.speed
-        #make snowflake reappear on top of screen after falling pass bottom
-        if self.rect.y > y_size:
-            self.rect.y = self.rect.y - y_size - invaderSize
+    def update(self):
+        #keep player within screen
+        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
+            self.rect.x = self.rect.x + x_speed
+        
         #endif
     #endprocedure
 #End Class
@@ -140,13 +138,13 @@ while not done:
             done = True
         elif event.type == pygame.KEYDOWN: # - a key is down 
             if event.key == pygame.K_LEFT: # - if the left key pressed 
-                player.player_set_speed(-3) # speed set to -3
+                x_speed = -3 # speed set to -3
             elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                player.player_set_speed(3) # speed set to 3
+                x_speed = 3 # speed set to 3
             #endif
         elif event.type == pygame.KEYUP: # - a key released 
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT: 
-                    player.player_set_speed(0) # speed set to 0
+                    x_speed = 0 # speed set to 0
                 #endif
             #endif
         #End If

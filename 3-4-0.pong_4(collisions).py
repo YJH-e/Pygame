@@ -89,6 +89,7 @@ while not done and lifeLeft > 0:
     #move paddle within screen
     #I used three different if statements to do the same thing because I find that when the paddle is just at the boundary, "y_padd = y_padd + y_speed" is still executed once to move it outside the boundary, so no condition is left to move the paddle back.
     #By using different if statements: the first for moving within range; the second for upper boundary only; and the last for lower boundary only, the paddle is able to stay within the screen, meeting at least one possible conditon at any time when requested to move.
+    #I can do all three if statement conditions in one line (see 5-0.space invaders.py), but I find this method bit confusing (single line too long), so I kept the three-line-configuration here.
     if y_padd >= 5 and y_padd <= y_size - 65:
         y_padd = y_padd + y_speed
     elif y_padd == 0 and y_speed > 0:
