@@ -22,6 +22,8 @@ pygame.display.set_caption("Space Invaders")
 # -- Exit game flag set to false 
 done = False
 
+#text display
+font = pygame.font.SysFont("monospace", 15)
 
 # Create a list of x_coordinates of invaders
 x_co = []
@@ -36,6 +38,10 @@ y_pos = 0
 #initialise x_speed for player
 x_speed = 0
 y_speed = 0
+
+#initialise score of player
+score = 0
+
 
 invaderSize = 10
 ## -- Define the class invader which is a sprite 
@@ -134,9 +140,6 @@ for y in range (number_of_players):
 #Next y
 
 
-
-
-
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()
 
@@ -174,18 +177,13 @@ while not done:
     all_sprites_group.update()
     # Game logic of player hitting invader
 
-    #player-invader collision
-    ivdNum = 0
-    for invNum in range (0, len(x_co)):
-        #checks if new inavder is adjacent or overlapping a previous invader
-        while x_pos <= x_co[invNum] + invaderSize and x_pos >= x_co[invNum] - invaderSize and y_pos <= y_co[invNum] + invaderSize and y_pos >= y_co[invNum] - invaderSize:
-            hit = True
-        #endwhile
-    #next
-    
     # -- when invader hits the player add 5 to score. 
-    #player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
+    player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
 
+    for h in player_hit_group:
+        score = score + 5
+        
+    #next
 
 
     
@@ -193,7 +191,11 @@ while not done:
     screen.fill(BLACK) 
     # -- Drawing code goes here
     all_sprites_group.draw(screen)
-     
+    
+    #text
+    scoreDisplay = font.render("score: " + str(score), 1, WHITE)
+    screen.blit(scoreDisplay,(x_size - 200, 20))
+
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
     # - The clock ticks over 
