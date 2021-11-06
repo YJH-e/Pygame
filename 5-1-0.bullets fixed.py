@@ -32,9 +32,9 @@ x_co = []
 # Create a list of y_coordinates of invaders
 y_co = []
 
-# create player position globally. The value they hold does not matter until they are being assigned
-x_pos = 0
-y_pos = 0
+# create bullet firing position
+x_pos = 300
+y_pos = y_size- 100
 
 #initialise x_speed for player
 x_speed = 0
@@ -45,7 +45,10 @@ score = 0
 
 #intialise number of bullets
 bullet_count = 0
+bullet_fired = False
 
+#initialise player's life
+life = 5
 invaderSize = 10
 ## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
@@ -100,23 +103,22 @@ class Player(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = 300 
-        self.rect.y = y_size - 100
-
-        x_pos = self.rect.x
-        y_pos = self.rect.y
+        self.rect.x = x_pos 
+        self.rect.y = y_pos
 
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
         #keep player within screen while moving player
-        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
+        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 4 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
             self.rect.x = self.rect.x + x_speed
             x_pos = self.rect.x
-        if (self.rect.y >= 3 and self.rect.y <= y_size - 13) or (self.rect.y <= 3 and y_speed > 0) or (self.rect.y >= y_size - 13 and y_speed < 0):
+            return x_pos
+        if (self.rect.y >= 3 and self.rect.y <= y_size - 13) or (self.rect.y <= 4 and y_speed > 0) or (self.rect.y >= y_size - 13 and y_speed < 0):
             self.rect.y = self.rect.y + y_speed
             y_pos = self.rect.y
+            return y_pos
         #endif
     #endprocedure
 #End Class
@@ -125,7 +127,7 @@ class Player(pygame.sprite.Sprite):
 ## -- Define the class bullet which is a sprite 
 class Bullet(pygame.sprite.Sprite): 
     # Define the constructor for snow 
-    def __init__(self, color, width, height, x_bullet, ):
+    def __init__(self, color, width, height):
         # Call the sprite constructor 
         super().__init__() 
         # Create a sprite and fill it with colour 
@@ -133,34 +135,25 @@ class Bullet(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = 300 
-        self.rect.y = y_size - 100
-
-        x_pos = self.rect.x
-        y_pos = self.rect.y
+        self.rect.x = x_pos
+        self.rect.y = y_pos
 
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
         #keep player within screen while moving player
-        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
-            self.rect.x = self.rect.x + x_speed
-            x_pos = self.rect.x
-        if (self.rect.y >= 3 and self.rect.y <= y_size - 13) or (self.rect.y <= 3 and y_speed > 0) or (self.rect.y >= y_size - 13 and y_speed < 0):
-            self.rect.y = self.rect.y + y_speed
-            y_pos = self.rect.y
+        self.rect.y = self.rect.y - 7
+
         #endif
     #endprocedure
 #End Class
 
-
+# Create a list of all sprites 
+all_sprites_group = pygame.sprite.Group()
 
 # Create a list of the snow blocks 
 invader_group = pygame.sprite.Group()
-
-# Create a list of all sprites 
-all_sprites_group = pygame.sprite.Group()
 
 #create a list of all bullets
 bullet_group = pygame.sprite.Group()
@@ -179,14 +172,6 @@ for y in range (number_of_players):
     player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
     all_sprites_group.add (player) # adds it to the group of all Sprites
 #Next y
-
-# Create the bullets
-#number_of_players = 1 # we are creating 10 invaders
-#for y in range (number_of_players):
-    #player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
-    #all_sprites_group.add (player) # adds it to the group of all Sprites
-#Next y
-
 
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()
@@ -213,9 +198,10 @@ while not done:
                 x_speed = 0
                 y_speed = 0
             elif event.key == pygame.K_SPACE: # fire bullets
-                mybullet = Bullet(RED,5,5,player.get_x(), player.get_y())
-                all_sprites_group.add(mybullet)
-                bullet_group.add(mybullet)
+                bullet_fired = True
+                bullet = Bullet(RED,5,5)
+                all_sprites_group.add(bullet)
+                bullet_group.add(bullet)
                 bullet_count += 1
                 
             #endif
@@ -227,17 +213,24 @@ while not done:
 
     # -- Game logic goes in here 
     all_sprites_group.update()
+
+    x_pos = player.update()
+
     # Game logic of player hitting invader
-
-    # -- when invader hits the player add 5 to score. 
+    # -- when player hits invader, deduct life by 1. 
     player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
-
     for h in player_hit_group:
-        score = score + 5
-        
+        life = life - 1
     #next
+    # -- when bullet hits invader, add 5 to score.
+    if bullet_fired == True:
+        bullet_hit_group = pygame.sprite.spritecollide(bullet, invader_group, True)
+        for h in bullet_hit_group:
+            score = score + 5     
+         #next
+    #endif
 
-
+    
     
     # -- Screen background is BLACK 
     screen.fill(BLACK) 
@@ -246,7 +239,13 @@ while not done:
     
     #text
     scoreDisplay = font.render("score: " + str(score), 1, WHITE)
-    screen.blit(scoreDisplay,(x_size - 200, 20))
+    screen.blit(scoreDisplay,(20, 20))
+    bulletDisplay = font.render("bullets left: " + str(50 - bullet_count), 1, WHITE)
+    screen.blit(bulletDisplay,(20, 40))
+    lifeDisplay = font.render("life left: " + str(life), 1, WHITE)
+    screen.blit(lifeDisplay,(20, 60))
+    x_pos_Display = font.render("x_pos: " + str(x_pos), 1, WHITE)
+    screen.blit(x_pos_Display,(20, 80))
 
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
