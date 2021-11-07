@@ -34,11 +34,9 @@ y_co = []
 
 # create bullet firing position
 x_pos = 300
-y_pos = y_size- 100
 
 #initialise x_speed for player
 x_speed = 0
-y_speed = 0
 
 #initialise score of player
 score = 0
@@ -104,21 +102,17 @@ class Player(pygame.sprite.Sprite):
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
         self.rect.x = x_pos 
-        self.rect.y = y_pos
+        self.rect.y = y_size - 100
 
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
         #keep player within screen while moving player
-        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 4 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
+        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
             self.rect.x = self.rect.x + x_speed
             x_pos = self.rect.x
             return x_pos
-        if (self.rect.y >= 3 and self.rect.y <= y_size - 13) or (self.rect.y <= 4 and y_speed > 0) or (self.rect.y >= y_size - 13 and y_speed < 0):
-            self.rect.y = self.rect.y + y_speed
-            y_pos = self.rect.y
-            return y_pos
         #endif
     #endprocedure
 #End Class
@@ -127,7 +121,7 @@ class Player(pygame.sprite.Sprite):
 ## -- Define the class bullet which is a sprite 
 class Bullet(pygame.sprite.Sprite): 
     # Define the constructor for snow 
-    def __init__(self, color, width, height):
+    def __init__(self, color, width, height, x_pos, x_speed):
         # Call the sprite constructor 
         super().__init__() 
         # Create a sprite and fill it with colour 
@@ -135,8 +129,14 @@ class Bullet(pygame.sprite.Sprite):
         self.image.fill(color) 
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
+        if x_pos == None and x_speed < 0:
+            x_pos = 0
+        elif x_pos == None and x_speed > 0:
+            x_pos = x_size - 5
+        #endif
+
         self.rect.x = x_pos
-        self.rect.y = y_pos
+        self.rect.y = y_size - 100
 
     #End Procedure
     
@@ -180,7 +180,7 @@ clock = pygame.time.Clock()
 ############################################################### GAME LOOP ###############################################################
 # PYGAME LOOP
 
-while not done: 
+while not done and life > 0: 
     # -- User input and controls
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
@@ -190,20 +190,18 @@ while not done:
                 x_speed = -3 # speed set to -3
             elif event.key == pygame.K_RIGHT: # - if the right key pressed
                 x_speed = 3 # speed set to 3
-            elif event.key == pygame.K_UP:
-                y_speed = -3
-            elif event.key == pygame.K_DOWN:
-                y_speed = 3
-            elif event.key == pygame.K_p: #stop player completely
+            elif event.key == pygame.K_p: #stop player
                 x_speed = 0
-                y_speed = 0
             elif event.key == pygame.K_SPACE: # fire bullets
-                bullet_fired = True
-                bullet = Bullet(RED,5,5)
-                all_sprites_group.add(bullet)
-                bullet_group.add(bullet)
-                bullet_count += 1
-                
+                if bullet_count > 49:
+                    pass
+                else:
+                    bullet_fired = True
+                    bullet = Bullet(RED,5,5, x_pos, x_speed)
+                    all_sprites_group.add(bullet)
+                    bullet_group.add(bullet)
+                    bullet_count += 1
+                #endif
             #endif
         
             #endif
