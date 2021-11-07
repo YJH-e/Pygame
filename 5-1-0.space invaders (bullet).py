@@ -242,8 +242,7 @@ while not done and life > 0:
     screen.blit(bulletDisplay,(20, 40))
     lifeDisplay = font.render("life left: " + str(life), 1, WHITE)
     screen.blit(lifeDisplay,(20, 60))
-    x_pos_Display = font.render("x_pos: " + str(x_pos), 1, WHITE)
-    screen.blit(x_pos_Display,(20, 80))
+
 
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
