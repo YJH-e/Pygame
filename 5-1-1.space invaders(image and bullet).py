@@ -208,7 +208,7 @@ while not done and life > 0:
                     pass
                 else:
                     bullet_fired = True
-                    bullet = Bullet(RED,5,5, x_pos, x_speed)
+                    bullet = Bullet(RED,5,15, x_pos, x_speed)
                     all_sprites_group.add(bullet)
                     bullet_group.add(bullet)
                     bullet_count += 1
@@ -254,18 +254,13 @@ while not done and life > 0:
     lifeDisplay = font.render("life left: " + str(life), 1, WHITE)
     screen.blit(lifeDisplay,(20, 60))
     if score == 50 or score == 50 - (5-life)*5:
-        endGame = fontEnd.render("Your victory has saved your planet.", 1, ORANGE)
-        endGame_rect = endGame.get_rect(center = (x_size/2, y_size/2 + 25))
+        endGame = fontEnd.render("Thank you for player space invaders.", 1, ORANGE)
+        endGame_rect = endGame.get_rect(center = (x_size/2, y_size/2 - 25))
         screen.blit(endGame,endGame_rect)
-        endGame2 = fontEnd.render("Thank you for player space invaders.", 1, ORANGE)
-        endGame2_rect = endGame2.get_rect(center = (x_size/2, y_size/2 - 25))
+        endGame2 = fontEnd.render("Your victory has saved your planet.", 1, ORANGE)
+        endGame2_rect = endGame2.get_rect(center = (x_size/2, y_size/2 + 25))
         screen.blit(endGame2, endGame2_rect)
     #endif
-
-
-
-
-
 
     # -- flip display to reveal new position of objects 
     pygame.display.flip()

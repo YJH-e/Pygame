@@ -208,7 +208,7 @@ while not done and life > 0:
                     pass
                 else:
                     bullet_fired = True
-                    bullet = Bullet(RED,5,5, x_pos, x_speed)
+                    bullet = Bullet(RED,5,15, x_pos, x_speed)
                     all_sprites_group.add(bullet)
                     bullet_group.add(bullet)
                     bullet_count += 1
