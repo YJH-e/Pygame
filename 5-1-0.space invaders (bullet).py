@@ -216,14 +216,14 @@ while not done and life > 0:
 
     # Game logic of player hitting invader
     # -- when player hits invader, deduct life by 1. 
-    player_hit_group = pygame.sprite.spritecollide(player, invader_group, True)
-    for h in player_hit_group:
+    player_hit_list = pygame.sprite.spritecollide(player, invader_group, True)
+    for h in player_hit_list:
         life = life - 1
     #next
     # -- when bullet hits invader, add 5 to score.
     if bullet_fired == True:
-        bullet_hit_group = pygame.sprite.spritecollide(bullet, invader_group, True)
-        for h in bullet_hit_group:
+        bullet_hit_list = pygame.sprite.spritecollide(bullet, invader_group, True)
+        for h in bullet_hit_list:
             score = score + 5     
          #next
     #endif

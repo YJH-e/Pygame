@@ -46,13 +46,13 @@ score = 0
 invaderSize = 10
 ## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
-    # Define the constructor for snow 
+    # Define the constructor for invader
     def __init__(self, color, width, height, speed):
         # Call the sprite constructor 
-        super().__init__() 
-        # Create a sprite and fill it with colour 
-        self.image = pygame.Surface([width,height]) 
-        self.image.fill(color) 
+        super().__init__()
+        #creat a sprite and put a picture on it
+        invImage = pygame.image.load('invader.png')
+        self.image = pygame.transform.scale(invImage, (16, 20))
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
         self.rect.x = random.randrange(0, x_size - invaderSize) 
@@ -92,9 +92,9 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, color, width, height):
         # Call the sprite constructor 
         super().__init__() 
-        # Create a sprite and fill it with colour 
-        self.image = pygame.Surface([width,height]) 
-        self.image.fill(color) 
+        # Create a sprite and put a picture on it
+        playerImage = pygame.image.load('player.jpg')
+        self.image = pygame.transform.scale(playerImage, (16, 20))
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
         self.rect.x = 300 
