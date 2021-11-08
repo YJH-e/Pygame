@@ -42,12 +42,11 @@ y_speed = 0
 #initialise score of player
 score = 0
 
-#define invader and player sizes
+
 invaderWidth = 40
 invaderHeight = 50
 playerWidth = 40
 playerHeight = 50
-
 ## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
     # Define the constructor for invader
