@@ -205,7 +205,7 @@ class Game(pygame.sprite.Sprite):
         #Next y
     #end procedure
 
-    def keyPress(self, bullet_count, bullet_fired):
+    def keyPress(self):
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 done = True
@@ -284,7 +284,7 @@ clock = pygame.time.Clock()
 
 
 ############################################################### GAME LOOP ###############################################################
-g = Game
+g = Game()
 # PYGAME LOOP
 
 while not done and life > 0:
