@@ -71,7 +71,7 @@ class Invader(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-50, 0)
 
         #recreate invader starting coordinate if the new invader overlaps or is adjacent to a previously created invader
-        ivdNum = 0
+        invNum = 0
         for invNum in range (0, len(x_co)):
             #checks if new inavder is adjacent or overlapping a previous invader
             while self.rect.x <= x_co[invNum] + invaderWidth and self.rect.x >= x_co[invNum] - invaderWidth and self.rect.y <= y_co[invNum] + invaderWidth and self.rect.y >= y_co[invNum] - invaderWidth:
@@ -254,7 +254,7 @@ while not done and life > 0:
     lifeDisplay = font.render("life left: " + str(life), 1, WHITE)
     screen.blit(lifeDisplay,(20, 60))
     if score == 50 or score == 50 - (5-life)*5:
-        endGame = fontEnd.render("Thank you for player space invaders.", 1, ORANGE)
+        endGame = fontEnd.render("Thank you for playing space invaders.", 1, ORANGE)
         endGame_rect = endGame.get_rect(center = (x_size/2, y_size/2 - 25))
         screen.blit(endGame,endGame_rect)
         endGame2 = fontEnd.render("Your victory has saved your planet.", 1, ORANGE)

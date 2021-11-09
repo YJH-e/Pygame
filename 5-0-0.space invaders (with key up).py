@@ -49,7 +49,7 @@ class Invader(pygame.sprite.Sprite):
         self.rect.y = random.randrange(-50, 0)
 
          #recreate invader starting coordinate if the new invader overlaps or is adjacent to a previously created invader
-        ivdNum = 0
+        invNum = 0
         for invNum in range (0, len(x_co)):
             #checks if new inavder is adjacent or overlapping a previous invader
             while self.rect.x <= x_co[invNum] + invaderSize and self.rect.x >= x_co[invNum] - invaderSize and self.rect.y <= y_co[invNum] + invaderSize and self.rect.y >= y_co[invNum] - invaderSize:

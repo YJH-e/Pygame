@@ -11,11 +11,12 @@ WHITE = (255,255,255)
 BLUE = (50,50,255) 
 YELLOW = (255,255,0)
 RED = (255, 0, 0)
+ORANGE = (255, 165, 0)
 # -- Initialise PyGame
 pygame.init() 
 # -- Blank Screen
-x_size = 640
-y_size = 480 
+x_size = 1000
+y_size = 620
 size = (x_size,y_size) 
 screen = pygame.display.set_mode(size) 
 # -- Title of new window/screen 
@@ -25,6 +26,13 @@ done = False
 
 #text display
 font = pygame.font.SysFont("monospace", 15)
+fontEnd = pygame.font.SysFont("monospace", 25)
+
+#define invader and player sizes
+invaderWidth = 40
+invaderHeight = 50
+playerWidth = 40
+playerHeight = 50
 
 # Create a list of x_coordinates of invaders
 x_co = []
@@ -47,27 +55,27 @@ bullet_fired = False
 
 #initialise player's life
 life = 5
-invaderSize = 10
+
 ## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
-    # Define the constructor for snow 
-    def __init__(self, color, width, height, speed):
+    # Define the constructor for invader
+    def __init__(self, width, height, speed):
         # Call the sprite constructor 
-        super().__init__() 
-        # Create a sprite and fill it with colour 
-        self.image = pygame.Surface([width,height]) 
-        self.image.fill(color) 
+        super().__init__()
+        #creat a sprite and put a picture on it
+        invImage = pygame.image.load('invader.png')
+        self.image = pygame.transform.scale(invImage, (width, height))
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = random.randrange(0, x_size - invaderSize) 
+        self.rect.x = random.randrange(0, x_size - invaderWidth) 
         self.rect.y = random.randrange(-50, 0)
 
         #recreate invader starting coordinate if the new invader overlaps or is adjacent to a previously created invader
         invNum = 0
         for invNum in range (0, len(x_co)):
             #checks if new inavder is adjacent or overlapping a previous invader
-            while self.rect.x <= x_co[invNum] + invaderSize and self.rect.x >= x_co[invNum] - invaderSize and self.rect.y <= y_co[invNum] + invaderSize and self.rect.y >= y_co[invNum] - invaderSize:
-                self.rect.x = random.randrange(0, x_size - invaderSize) 
+            while self.rect.x <= x_co[invNum] + invaderWidth and self.rect.x >= x_co[invNum] - invaderWidth and self.rect.y <= y_co[invNum] + invaderWidth and self.rect.y >= y_co[invNum] - invaderWidth:
+                self.rect.x = random.randrange(0, x_size - invaderWidth) 
                 self.rect.y = random.randrange(-50, 0)
             #endwhile
         #next
@@ -85,7 +93,19 @@ class Invader(pygame.sprite.Sprite):
         self.rect.y = self.rect.y + self.speed
         #make snowflake reappear on top of screen after falling pass bottom
         if self.rect.y > y_size:
-            self.rect.y = self.rect.y - y_size - invaderSize
+            self.rect = self.image.get_rect() 
+            self.rect.x = random.randrange(0, x_size - invaderWidth) 
+            self.rect.y = random.randrange(-50, 0)
+
+            #recreate invader starting coordinate if the new invader overlaps or is adjacent to a previously created invader
+            invNum = 0
+            for invNum in range (0, len(x_co)):
+                #checks if new inavder is adjacent or overlapping a previous invader
+                while self.rect.x <= x_co[invNum] + invaderWidth and self.rect.x >= x_co[invNum] - invaderWidth and self.rect.y <= y_co[invNum] + invaderWidth and self.rect.y >= y_co[invNum] - invaderWidth:
+                    self.rect.x = random.randrange(0, x_size - invaderWidth) 
+                    self.rect.y = random.randrange(-50, 0)
+                #endwhile
+            #next
         #endif
     #endprocedure
 #End Class
@@ -93,23 +113,26 @@ class Invader(pygame.sprite.Sprite):
 ## -- Define the class player which is a sprite 
 class Player(pygame.sprite.Sprite): 
     # Define the constructor for snow 
-    def __init__(self, color, width, height):
+    def __init__(self, width, height):
         # Call the sprite constructor 
         super().__init__() 
-        # Create a sprite and fill it with colour 
-        self.image = pygame.Surface([width,height]) 
-        self.image.fill(color) 
+        # Create a sprite and put a picture on it
+        playerImage = pygame.image.load('player.png')
+        self.image = pygame.transform.scale(playerImage, (width, height))
         # Set the position of the sprite 
         self.rect = self.image.get_rect() 
-        self.rect.x = x_pos 
+        self.rect.x = 300 
         self.rect.y = y_size - 100
+
+        x_pos = self.rect.x
+        y_pos = self.rect.y
 
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
         #keep player within screen while moving player
-        if (self.rect.x >= 3 and self.rect.x <= x_size - 13) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 13 and x_speed < 0):
+        if (self.rect.x >= 3 and self.rect.x <= x_size - 3 - playerWidth) or (self.rect.x <= 3 and x_speed > 0) or (self.rect.x >= x_size - 3 - playerWidth and x_speed < 0):
             self.rect.x = self.rect.x + x_speed
             x_pos = self.rect.x
             return x_pos
@@ -161,7 +184,7 @@ bullet_group = pygame.sprite.Group()
 # Create the invaders
 number_of_invaders = 10 # we are creating 10 invaders
 for x in range (number_of_invaders): 
-    invaders = Invader(BLUE, invaderSize, invaderSize, 1)
+    invaders = Invader(invaderWidth, invaderHeight, 1)
     invader_group.add (invaders) # adds the new invader to the group of invaders
     all_sprites_group.add (invaders) # adds it to the group of all Sprites
 #Next x
@@ -169,7 +192,7 @@ for x in range (number_of_invaders):
 # Create the player
 number_of_players = 1 # we are creating 10 invaders
 for y in range (number_of_players):
-    player = Player(YELLOW, 10, 10) # snowflakes are white with size 5 by 5 px
+    player = Player(playerWidth, playerHeight) # snowflakes are white with size 5 by 5 px
     all_sprites_group.add (player) # adds it to the group of all Sprites
 #Next y
 
@@ -180,7 +203,7 @@ clock = pygame.time.Clock()
 ############################################################### GAME LOOP ###############################################################
 # PYGAME LOOP
 
-while not done and life > 0: 
+while not done and life > 0:
     # -- User input and controls
     for event in pygame.event.get(): 
         if event.type == pygame.QUIT: 
@@ -197,13 +220,11 @@ while not done and life > 0:
                     pass
                 else:
                     bullet_fired = True
-                    bullet = Bullet(RED,5,5, x_pos, x_speed)
+                    bullet = Bullet(RED,5,15, x_pos, x_speed)
                     all_sprites_group.add(bullet)
                     bullet_group.add(bullet)
                     bullet_count += 1
                 #endif
-            #endif
-        
             #endif
         #End If
     #Next event
@@ -242,7 +263,14 @@ while not done and life > 0:
     screen.blit(bulletDisplay,(20, 40))
     lifeDisplay = font.render("life left: " + str(life), 1, WHITE)
     screen.blit(lifeDisplay,(20, 60))
-
+    if score == 50 or score == 50 - (5-life)*5:
+        endGame = fontEnd.render("Thank you for playing space invaders.", 1, ORANGE)
+        endGame_rect = endGame.get_rect(center = (x_size/2, y_size/2 - 25))
+        screen.blit(endGame,endGame_rect)
+        endGame2 = fontEnd.render("Your victory has saved your planet.", 1, ORANGE)
+        endGame2_rect = endGame2.get_rect(center = (x_size/2, y_size/2 + 25))
+        screen.blit(endGame2, endGame2_rect)
+    #endif
 
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
