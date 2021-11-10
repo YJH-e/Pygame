@@ -4,57 +4,10 @@ import pygame
 import random
 import math
 
-# -- Global Constants 
-# -- Colours 
-BLACK = (0,0,0) 
-WHITE = (255,255,255) 
-BLUE = (50,50,255) 
-YELLOW = (255,255,0)
-RED = (255, 0, 0)
-ORANGE = (255, 165, 0)
-# -- Initialise PyGame
-pygame.init() 
-# -- Blank Screen
-x_size = 1000
-y_size = 620
-size = (x_size,y_size) 
-screen = pygame.display.set_mode(size) 
-# -- Title of new window/screen 
-pygame.display.set_caption("Space Invaders") 
+
+
 # -- Exit game flag set to false 
 done = False
-
-#text display
-font = pygame.font.SysFont("monospace", 15)
-fontEnd = pygame.font.SysFont("monospace", 25)
-
-#define invader and player sizes
-invaderWidth = 40
-invaderHeight = 50
-playerWidth = 40
-playerHeight = 50
-
-# Create a list of x_coordinates of invaders
-x_co = []
-
-# Create a list of y_coordinates of invaders
-y_co = []
-
-# create bullet firing position
-x_pos = 300
-
-#initialise x_speed for player
-x_speed = 0
-
-#initialise score of player
-score = 0
-
-#intialise number of bullets
-bullet_count = 0
-bullet_fired = False
-
-#initialise player's life
-life = 5
 
 ## -- Define the class invader which is a sprite 
 class Invader(pygame.sprite.Sprite): 
@@ -173,6 +126,55 @@ class Bullet(pygame.sprite.Sprite):
 #End Class
 
 class Game(pygame.sprite.Sprite):
+    #initialise all variables inside Game class (except done)
+    # -- Colours 
+    self.BLACK = (0,0,0) 
+    self.WHITE = (255,255,255) 
+    self.BLUE = (50,50,255) 
+    self.YELLOW = (255,255,0)
+    self.RED = (255, 0, 0)
+    self.ORANGE = (255, 165, 0)
+    # -- Initialise PyGame
+    pygame.init() 
+    # -- Blank Screen
+    self.x_size = 1000
+    self.y_size = 620
+    self.size = (x_size,y_size) 
+    self.screen = pygame.display.set_mode(size) 
+    # -- Title of new window/screen 
+    self.pygame.display.set_caption("Space Invaders")
+    #text display
+    self.font = pygame.font.SysFont("monospace", 15)
+    self.fontEnd = pygame.font.SysFont("monospace", 25)
+
+    #define invader and player sizes
+    self.invaderWidth = 40
+    self.invaderHeight = 50
+    self.playerWidth = 40
+    self.playerHeight = 50
+
+    # Create a list of x_coordinates of invaders
+    self.x_co = []
+
+    # Create a list of y_coordinates of invaders
+    self.y_co = []
+
+    # create bullet firing position
+    self.x_pos = 300
+
+    #initialise x_speed for player
+    self.x_speed = 0
+
+    #initialise score of player
+    self.score = 0
+
+    #intialise number of bullets
+    self.bullet_count = 0
+    self.bullet_fired = False
+
+    #initialise player's life
+    self.life = 5
+
     def __init__(self):
         # Create a list of all sprites 
         self.all_sprites_group = pygame.sprite.Group()
