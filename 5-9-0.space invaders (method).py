@@ -85,6 +85,12 @@ class Invader(pygame.sprite.Sprite):
 
 ## -- Define the class player which is a sprite 
 class Player(pygame.sprite.Sprite):
+
+    x_speed = 0
+    score = 50
+    lives = 5
+    bullets = 50
+
     # Define the constructor for player
     def __init__(self, width, height):
         # Call the sprite constructor 
@@ -98,16 +104,31 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = y_size - 100
         self.x_speed = 0
 
-        self.score = 50
-        self.lives = 5
-        self.bullets = 50
+        #self.score = 50
+        #self.lives = 5
+        #self.bullets = 50
         self.width = width
         self.height = height
+
 
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
+        for event in pygame.event.get(): 
+            if event.type == pygame.KEYDOWN: # - a key is down 
+                if event.key == pygame.K_LEFT: # - if the left key pressed 
+                    self.x_speed = -3 # speed set to -3
+                    return self.x_speed
+                elif event.key == pygame.K_RIGHT: # - if the right key pressed
+                    self.x_speed = 3 # speed set to 3
+                    
+                elif event.key == pygame.K_p: #stop player
+                    self.x_speed = 0
+                #endif
+            #endif
+        #next
+        
         #keep player within screen while moving player
         if (self.rect.x >= 3 and self.rect.x <= x_size - 3 - self.width) or (self.rect.x <= 3 and self.x_speed > 0) or (self.rect.x >= x_size - 3 - 40 and self.x_speed < 0):
             self.rect.x = self.rect.x + self.x_speed
@@ -204,16 +225,20 @@ class Game():
   
 
     def keyPress(self):
+
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 done = True
             elif event.type == pygame.KEYDOWN: # - a key is down 
                 if event.key == pygame.K_LEFT: # - if the left key pressed 
                     self.x_speed = -3 # speed set to -3
+                    return self.x_speed
                 elif event.key == pygame.K_RIGHT: # - if the right key pressed
                     self.x_speed = 3 # speed set to 3
+                    
                 elif event.key == pygame.K_p: #stop player
                     self.x_speed = 0
+                    
                 elif event.key == pygame.K_SPACE: # fire bullets
                     if self.bullet_count > 49:
                         pass
@@ -227,11 +252,18 @@ class Game():
                 #endif
             #End If
         #Next event
+        self.all_sprites_group.update()
+
+        # -- Screen background is BLACK 
+        self.screen.fill(BLACK) 
+        # -- Drawing code goes here
+        self.all_sprites_group.draw(self.screen)
     #end function
 
-    def logic(self):
-        # -- Game logic goes in here 
-        self.all_sprites_group.update()
+    def logic(self): # -- Game logic goes in here
+        #update all sprite
+        #Player.update(x_speed) 
+        #self.all_sprites_group.update()
 
 
 
@@ -250,9 +282,9 @@ class Game():
         #endif
 
         # -- Screen background is BLACK 
-        self.screen.fill(BLACK) 
+        #self.screen.fill(BLACK) 
         # -- Drawing code goes here
-        self.all_sprites_group.draw(self.screen)
+        #self.all_sprites_group.draw(self.screen)
     #endprocedure
 
 
@@ -284,7 +316,7 @@ while not done:
     # -- Title of new window/screen 
     pygame.display.set_caption("Space Invaders")
 
-    #keyPress that closes window or moves player or fire bullets
+    #keyPress that closes window or moves player or fire bullets #get x_speed for player
     g.keyPress()
 
     #game logic that calculates player's life, bullets and collisions and scores
