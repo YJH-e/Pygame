@@ -22,9 +22,6 @@ import math
 # -- Initialise PyGame
 pygame.init()
 
-# -- Exit game flag set to false 
-done = False
-
 
 #class obstacles
 class Obstacle:
@@ -33,34 +30,33 @@ class Obstacle:
     #ascending numbers as positive direction (e.g. 10 to 50)
     directionList = []
 
-    #number of obstacles created by iteration (can later be a user input)
-    numOfObstacle = 5
-
     #construct obstacle
-    def __init__(self, numOfObstacle):
+    def __init__(self):
         # Set the position of the obstacle
-        for i in range(0, numOfObstacle):
-            #randomly generate the start and end of the obstacle
-            self.start = random.randrange(1,99)
+        #randomly generate the start and end of the obstacle
+        self.start = random.randrange(1,99)
+        self.end = random.randrange(1,99)
+        #make sure that start and end are not the same square number
+        if self.end == self.start:
             self.end = random.randrange(1,99)
-            #make sure that start and end are not the same square number
-            if self.end == self.start:
-                self.end = random.randrange(1,99)
-            #endif
+        #endif
 
-            #check if the start of end is already existing
-            if i > 0:
-                while self.start == self.startList[i] or self.start == self.end:
+        #check if the start of end is already existing
+        i = len(self.startList)
+        if i > 0:
+            j = 0
+            for j in range (0,i):
+                while self.start == self.startList[j] or self.start == self.end:
                     self.start = random.randrange(1,99)
                 #endwhile
-                while self.end == self.endList[1] or self.start == self.end:
+                while self.end == self.endList[j] or self.start == self.end:
                     self.end = random.randrange(1,99)
                 #endwhile
-            #endif
-
-            #add coordinate of new obstacle to coordinate lists
-            self.startList.append(self.start)
-            self.endList.append(self.end)
+            #next
+        #endif
+        #add coordinate of new obstacle to coordinate lists
+        self.startList.append(self.start)
+        self.endList.append(self.end)
         #next                
     #endfunction
 #end class
@@ -92,15 +88,13 @@ class Ladders(Obstacle):
 #end class
 
 #class player
-class Player:
-    #number of players (can later be a user input)
-    numOfPlayers = 2
+class Players:
+    #list holding all player position
     posOfPlayers = []
 
     #player constructor (initialises player position off the board at square  no.0)
-    def __init__(self, numOfPlayers, posOfPlayers):
-        for i in range (0, numOfPlayers):
-            posOfPlayers[i] = 0
+    def __init__(self):
+        self.posOfPlayers.append(0) #0 as in integer - more convenient maths
     #endfunction
 
 
@@ -109,7 +103,7 @@ class Player:
 #end class
 
 class Dice:
-    #can have different number of faces and dices
+    #can have different number of faces and dices/can later be a user input
     diceFace = 6
     
     #roll a random integer method
@@ -134,31 +128,30 @@ class Board:
 
     # Create the snakes
     def createSnake(self):
-        number_of_snakes = 5 # we are creating 10 invaders
+        number_of_snakes = 5 # we are creating 5 snakes
         for x in range (number_of_snakes): 
-            snakes = Snakes(#start, end, direction)
-            #snakeList.append(snakes)
+            snakes = Snakes()
+            self.snakeList.append(snakes)
             self.everythingList.append(snakes)
         #Next x
-
-    #procedure
+    #endprocedure
 
     # Create the ladders
     def createLadder(self):
-        number_of_ladders = 5 # we are creating 10 invaders
+        number_of_ladders = 5 # we are creating 5 ladders
         for x in range (number_of_ladders): 
-            ladders = Ladders(#start, end, direction)
-            #ladderList.append(ladders)
+            ladders = Ladders()
+            self.ladderList.append(ladders)
             self.everythingList.append(ladders)
         #Next x
-    #procedure
+    #endprocedure
 
     # Create the players
     def createPlayer(self):
-        number_of_players = 2 # we are creating 10 invaders
+        number_of_players = 2 # we are creating 2 players
         for x in range (number_of_players): 
-            players = Players(#start, end, direction)
-            #playerList.append(players)
+            players = Players()
+            self.playerList.append(players)
             self.everythingList.append(players)
         #Next x
     #procedure
@@ -167,40 +160,16 @@ class Board:
 
 
 
-# -- Manages how fast screen refreshes 
-#clock = pygame.time.Clock()
 
-##############################################           Game Loop           ##############################################
+
+##############################################           Game Loop...see terminal           ##############################################
+
+#no game logic at this point
+
 b = Board()
-while done == True: 
-    # -- User input and controls
-    #for event in pygame.event.get(): 
-        #if event.type == pygame.QUIT: 
-            #done = True 
-        #End If
-    #Next event
-    # -- Game logic goes after this comment
-    b.createSnake()
-    b.createLadder()
-    b.createPlayer()
 
+b.createSnake()
+b.createLadder()
+b.createPlayer()
 
-
-
-
-
-
-
-    
-
-
-    # -- Screen background is BLACK 
-    #screen.fill (BLACK) 
-    # -- Draw here 
-     
-    # -- flip display to reveal new position of objects 
-    #pygame.display.flip()
-    # - The clock ticks over 
-    #clock.tick(60) 
-#End While - End of game loop
-#pygame.quit()
+#if all starts and ends of both snakes and ladders are in Obstacle class, while the create snakes and ladders are in their own class, how do I print all snakes' and ladders' starts and ends individually?
