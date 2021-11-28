@@ -19,29 +19,8 @@ import random
 import math
 # -- Global Constants
 
-# -- Colours
-#board colours
-#BLACK = (0,0,0) 
-#WHITE = (255,255,255)
-#player colours
-#ORANGE = (255,165,0)
-#BLUE = (50,50,255)
-#snake colour:
-#GREEN = (0,128,0)
-#ladder colour:
-#OAK = (187,129,65)
-
 # -- Initialise PyGame
 pygame.init()
-
-# -- Blank Screen
-#x_size_screen = 1000
-#y_size_screen = 620 
-#size = (x_size_screen, y_size_screen) 
-#screen = pygame.display.set_mode(size)
-
-# -- Title of new window/screen 
-#pygame.display.set_caption("Snakes and Ladders")
 
 # -- Exit game flag set to false 
 done = False
@@ -54,59 +33,45 @@ class Obstacle:
     #ascending numbers as positive direction (e.g. 10 to 50)
     directionList = []
 
+    #number of obstacles created by iteration (can later be a user input)
+    numOfObstacle = 5
+
     #construct obstacle
-    def __init__(self, start, end, direction, color):
+    def __init__(self, numOfObstacle):
         # Set the position of the obstacle
+        for i in range(0, numOfObstacle):
+            #randomly generate the start and end of the obstacle
+            self.start = random.randrange(1,99)
+            self.end = random.randrange(1,99)
+            #make sure that start and end are not the same square number
+            if self.end == self.start:
+                self.end = random.randrange(1,99)
+            #endif
 
-        #QUESTION: start and end have different requirements for snakes and ladders
-        self.start = random.randrange(0, ) 
-        self.end = random.randrange()
+            #check if the start of end is already existing
+            if i > 0:
+                while self.start == self.startList[i] or self.start == self.end:
+                    self.start = random.randrange(1,99)
+                #endwhile
+                while self.end == self.endList[1] or self.start == self.end:
+                    self.end = random.randrange(1,99)
+                #endwhile
+            #endif
 
-        #recreate obstacle starting coordinate if the new obstacle overlaps or is adjacent to a previously created invader
-        #obstacleNum = 5
-        #for obstacleNum in range (0, len(self.startList)):
-            #checks if new obstacle is adjacent or overlapping a previous invader
-            #while #no same start and end :
-                #recreate obstacle
-            #endwhile
-        #next
-
-        #add coordinate of new obstacle to coordinate lists
-        self.startList.append(self.start)
-        self.endList.append(self.end)
+            #add coordinate of new obstacle to coordinate lists
+            self.startList.append(self.start)
+            self.endList.append(self.end)
+        #next                
     #endfunction
 #end class
 
 
 #class snakes
 class Snakes(Obstacle):
-    #snake constructor
-    #construct obstacle
+    #snake constructor continuing obstacle constructor
     def __init__(self):
-
-
-
-        #QUESTION: start and end have different requirements for snakes and ladders
-        self.start = random.randrange(2, 99) 
-        self.end = random.randrange(1, self.start)
-
-        #recreate obstacle starting coordinate if the new obstacle overlaps or is adjacent to a previously created obstacle
-        snakeNum = 0
-        for snakeNum in range (0, len(self.startList)):
-            #checks if new obstacle is adjacent or overlapping a previous invader
-            while self.start == self.startList(snakeNum):
-                #recreate obstacle start
-                self.start = random.randrange(2, 99)
-            #endwhile
-            while self.end == self.endList(snakeNum):
-                #recreate obstacle start
-                self.end = random.randrange(1, self.start)
-            #endwhile
-        #next
-
-        #add coordinate of new obstacle to coordinate lists
-        self.startList.append(self.start)
-        self.endList.append(self.end)
+        super().__init__()
+        self.direction = -1
     #endfunction
 
     #move player method for snakes
@@ -116,32 +81,10 @@ class Snakes(Obstacle):
 
 #class ladders
 class Ladders(Obstacle):
-    #ladder constructor
-    #construct obstacle
+    #ladder constructor continuing ladder constructor
     def __init__(self):
-
-
-        #QUESTION: start and end have different requirements for snakes and ladders
-        self.start = random.randrange(1, 99) 
-        self.end = random.randrange(self.start, 100)
-
-        #recreate obstacle starting coordinate if the new obstacle overlaps or is adjacent to a previously created obstacle
-        ladderNum = 0
-        for ladderNum in range (0, len(self.startList)):
-            #checks if new obstacle is adjacent or overlapping a previous invader
-            while self.start == self.startList(ladderNum):
-                #recreate obstacle start
-                self.start = random.randrange(1, 99) 
-            #endwhile
-            while self.end == self.endList(ladderNum):
-                #recreate obstacle start
-                self.end = random.randrange(self.start, 100)
-            #endwhile
-        #next
-
-        #add coordinate of new obstacle to coordinate lists
-        self.startList.append(self.rect.start)
-        self.endList.append(self.rect.end)
+        super().__init__()
+        self.direction = 1
     #endfunction
 
     #move player method for ladders
@@ -150,9 +93,14 @@ class Ladders(Obstacle):
 
 #class player
 class Player:
-    #player constructor
-    def __init__(self):
-        self.pos = 0
+    #number of players (can later be a user input)
+    numOfPlayers = 2
+    posOfPlayers = []
+
+    #player constructor (initialises player position off the board at square  no.0)
+    def __init__(self, numOfPlayers, posOfPlayers):
+        for i in range (0, numOfPlayers):
+            posOfPlayers[i] = 0
     #endfunction
 
 
