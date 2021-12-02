@@ -16,7 +16,6 @@
 #PYGAME START-UP
 import pygame
 import random
-import math
 # -- Global Constants
 
 # -- Colours
