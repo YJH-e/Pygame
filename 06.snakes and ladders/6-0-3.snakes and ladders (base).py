@@ -12,7 +12,6 @@
 # - encapsulation; OOP
 # - inheritance (Obstacle as parent class; Snakes and Ladders as child class)
 
-
 #PYGAME START-UP
 import pygame
 import random
@@ -20,7 +19,6 @@ import random
 
 # -- Initialise PyGame
 pygame.init()
-
 
 #class obstacles
 class Obstacle():
@@ -54,7 +52,6 @@ class Obstacle():
     #endfunction
 #end class
 
-
 #class snakes
 class Snakes(Obstacle):
     #Snakes' own list of holding all its start square numbers
@@ -78,7 +75,6 @@ class Snakes(Obstacle):
         return self.endListSnakes 
     #endfunction
 #end class
-
 
 #class ladders
 class Ladders(Obstacle):
@@ -104,7 +100,6 @@ class Ladders(Obstacle):
 
 
     #move player method for ladders
-
 #end class
 
 #class player
@@ -137,9 +132,7 @@ class Dice():
     def roll(self):
         return random.randrange(1, self.diceFace) 
     #endfuntion
-
 #endclass
-
 
 #class board
 class Board():
