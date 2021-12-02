@@ -56,7 +56,7 @@ class Obstacle():
 
 
 #class snakes
-class Snakes(Obstacle, Game):
+class Snakes(Obstacle):
     #Snakes' own list of holding all its start square numbers
     startListSnakes = []
     #Snakes' own list of holding all its end square numbers
@@ -77,22 +77,11 @@ class Snakes(Obstacle, Game):
     def getEndSnakesList(self):
         return self.endListSnakes 
     #endfunction
-
-    #identify which snake start square the player has landed on, using player position from class Player
-    def identifySnake(self):
-        #for p in posOfPlayers?:
-            playerPos = Players.getPlayerPos()
-
-    #endfunction
-
-
-    #move player method for snakes
-
 #end class
 
 
 #class ladders
-class Ladders(Obstacle, Game):
+class Ladders(Obstacle):
     #Ladders' own list of holding all its start square numbers
     startListLadders = []
     #Ladders' own list of holding all its start square numbers
@@ -122,26 +111,22 @@ class Ladders(Obstacle, Game):
 class Players():
     #list holding all player position
     posOfPlayers = []
-
-    playerName = ""
+    nameOfPlayers = ["Player A", "Player B"]
 
     #player constructor (initialises player position off the board at square  no.0)
     def __init__(self):
         self.posOfPlayers.append(0) #0 as in integer - more convenient maths
     #endfunction
 
-    #set player position
-    def getPlayerPos(self, playerNum): #playerNum is the identifier that is unique to each player
-        playerPos = self.posOfPlayers(playerNum)
-        return playerPos
+    #get player position
+    def getPlayerPos(self):
+        return self.posOfPlayers
     #endfunction
 
-
-    
-
-
-    #move player method for players
-
+    #get player name
+    def getPlayerNames(self):
+        return self.nameOfPlayers
+    #endfunction
 #end class
 
 class Dice():
@@ -150,8 +135,7 @@ class Dice():
     
     #roll a random integer method
     def roll(self):
-        self.diceNum = random.randrange(1, self.diceFace)
-        return self.diceNum   
+        return random.randrange(1, self.diceFace) 
     #endfuntion
 
 #endclass
@@ -167,6 +151,12 @@ class Board():
     playerList= []    
 
     #board constructor
+    def __init__(self):
+        Board.createSnake
+        Board.createLadder
+        Board.createPlayer
+        Board.displayBoard
+    #endprocedure
 
     # Create the snakes
     def createSnake(self):
@@ -198,6 +188,38 @@ class Board():
         #Next x
     #procedure
 
+    def displayBoard(self):
+        #display all start square numbers for snakes
+        print("Below are all start square numbers for snakes")
+        for num1 in range (0, len(Snakes.startListSnakes)):
+            print(Snakes.startListSnakes[num1])
+        #next
+
+        #display all end square numbers for snakes
+        print("Below are all end square numbers for snakes")
+        for num2 in range (0, len(Snakes.endListSnakes)):
+            print(Snakes.endListSnakes[num2])
+        #next
+
+        #display all start square numbers for ladders
+        print("Below are all start square numbers for ladders")
+        for num3 in range (0, len(Ladders.startListLadders)):
+            print(Ladders.startListLadders[num3])
+        #next
+
+        #display all end square numbers for ladders
+        print("Below are all end square numbers for ladders")
+        for num4 in range (0, len(Ladders.startListLadders)):
+            print(Ladders.endListLadders[num4])
+        #next
+
+        #display all positions as in square number of players
+        print("Below are all positions as in square number of players")
+        for num5 in range (0, len(Players.posOfPlayers)):
+            print(Players.posOfPlayers[num5])
+        #next
+    #endprocedure
+
 #end class
 
 class Game():
@@ -208,6 +230,10 @@ class Game():
     startListLadders = []
     endListLadders = []
     posOfPlayers = []
+    nameOfPlayers = []
+
+    #flag of initialising Game (get all lists above required)
+    listObtained = False
 
     def obtainLists(self):
         self.startListSnakes = Snakes.getStartSnakesList
@@ -215,62 +241,69 @@ class Game():
         self.startListLadders = Ladders.getStartLaddersList
         self.endListLadders = Ladders.getEndLaddersList
         self.posOfPlayers = Players.getPlayerPos
+        self.nameOfPlayers = Players.getPlayerNames
+        self.listObtained = True
     #endprocedure
 
-
-    def movePlayer(self):
-        #when there are only two players, index 0 and 1 in posOfPlayers list
-        tempPlayerPos = self.posOfPlayers
-         
-        
-
-    #endfunction
-
-
-
-
+    def playGame(self):
+        #initialise board
+        Board().__init__
+        while self.listObtained == False:
+            Game.obtainLists()
+        #endwhile
+        #flag of any one of the players winning
+        win =False
+        while win != True:
+            for p in self.nameOfPlayers:
+                #roll dice and add to player position (as square number)
+                r = Dice.roll
+                self.posOfPlayers(p) += r
+                print(self.nameOfPlayers(p), "rolled a ", r, "and is now on square numebr ", self.posOfPlayers(p))
+                #checks if player position is greater than 100, i.e. passed the finish line too far, rebounce player
+                if self.posOfPlayers(p) > 100:
+                    #calculate rebounce
+                    difference = self.posOfPlayers(p) - 100
+                    self.posOfPlayers(p) = 100 - difference
+                    print(self.nameOfPlayers(p), " has went over 100 and has rebounced back to square number ",self.posOfPlayers(p))
+                elif self.posOfPlayers(p) == 100:
+                    win = True
+                    print(self.nameOfPlayers(p), " has won")
+                    print("Game Ends")
+                #endif
+                else:
+                    #flag of player hitting snake
+                    hitSnake = False
+                    s = 0
+                    #checks if player has hit snake
+                    while s != len(self.startListSnakes) or hitSnake != True:
+                        if self.posOfPlayers(p) == self.startListSnakes(s):
+                            hitSnake = True
+                            print(self.nameOfPlayers(p), " has hit a snake that spans from ", self.startListSnakes(s), " to ", self.endListSnakes(s))
+                            self.posOfPlayers(p) == self.endListSnakes(s)
+                            print(self.nameOfPlayers(p), " is on square number ", self.posOfPlayers(p))
+                        #endif
+                        s += 1
+                    #endwhile
+                    #flag of player hitting ladder
+                    hitLadder = False
+                    l = 0
+                    #checks if player has hit ladder
+                    while l != len(self.startListLadders) or hitLadder != True:
+                        if self.posOfPlayers(p) == self.startListSnakes(l):
+                            hitLadder = True
+                            print(self.nameOfPlayers(p), " has hit a ladder that spans from ", self.startListLadders(l), " to ", self.endListLadders(l))
+                            self.posOfPlayers(p) == self.endListLadders(l)
+                            print(self.nameOfPlayers(p), " is on square number ", self.posOfPlayers(p))
+                        #endif
+                        l += 1
+                    #endwhile
+                #endif
+            #next player
+        #endwhile
+    #endprocedure
 #endclass
 
 
 
-
-
 ##############################################           Game display...see terminal           ##############################################
-
-#no game logic at this point
-
-#create all snakes, ladders and players at initial position
-b = Board()
-b.createSnake()
-b.createLadder()
-b.createPlayer()
-
-#display all start square numbers for snakes
-print("Below are all start square numbers for snakes")
-for num1 in range (0, len(Snakes.startListSnakes)):
-    print(Snakes.startListSnakes[num1])
-#next
-
-#display all end square numbers for snakes
-print("Below are all end square numbers for snakes")
-for num2 in range (0, len(Snakes.endListSnakes)):
-    print(Snakes.endListSnakes[num2])
-#next
-
-#display all start square numbers for ladders
-print("Below are all start square numbers for ladders")
-for num3 in range (0, len(Ladders.startListLadders)):
-    print(Ladders.startListLadders[num3])
-#next
-
-#display all end square numbers for ladders
-print("Below are all end square numbers for ladders")
-for num4 in range (0, len(Ladders.startListLadders)):
-    print(Ladders.endListLadders[num4])
-#next
-
-#display all positions as in square number of players
-print("Below are all positions as in square number of players")
-for num5 in range (0, len(Players.posOfPlayers)):
-    print(Players.posOfPlayers[num5])
-#next
+Game.playGame
