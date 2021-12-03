@@ -12,6 +12,12 @@
 # - encapsulation; OOP
 # - inheritance (Obstacle as parent class; Snakes and Ladders as child class)
 
+#notes
+# - to find length of a list or string: len()
+# - to access an item in a list: list[]
+# - to call a subroutine: subroutineName()
+# - when programming OOP, you create the class, but use an object to perform the methods from the class on (e.g. g = Game() // g.playGame())
+
 #PYGAME START-UP
 import pygame
 import random
@@ -250,17 +256,17 @@ class Game():
             for p in self.nameOfPlayers:
                 #roll dice and add to player position (as square number)
                 r = Dice.roll
-                self.posOfPlayers(p) += r
-                print(self.nameOfPlayers(p), "rolled a ", r, "and is now on square numebr ", self.posOfPlayers(p))
+                self.posOfPlayers[p] += r
+                print(self.nameOfPlayers[p], "rolled a ", r, "and is now on square numebr ", self.posOfPlayers[p])
                 #checks if player position is greater than 100, i.e. passed the finish line too far, rebounce player
-                if self.posOfPlayers(p) > 100:
+                if self.posOfPlayers[p] > 100:
                     #calculate rebounce
-                    difference = self.posOfPlayers(p) - 100
-                    self.posOfPlayers(p) = 100 - difference
-                    print(self.nameOfPlayers(p), " has went over 100 and has rebounced back to square number ",self.posOfPlayers(p))
-                elif self.posOfPlayers(p) == 100:
+                    difference = self.posOfPlayers[p] - 100
+                    self.posOfPlayers[p] = 100 - difference
+                    print(self.nameOfPlayers[p], " has went over 100 and has rebounced back to square number ",self.posOfPlayers[p])
+                elif self.posOfPlayers[p] == 100:
                     win = True
-                    print(self.nameOfPlayers(p), " has won")
+                    print(self.nameOfPlayers[p], " has won")
                     print("Game Ends")
                 #endif
                 else:
@@ -269,11 +275,11 @@ class Game():
                     s = 0
                     #checks if player has hit snake
                     while s != len(self.startListSnakes) or hitSnake != True:
-                        if self.posOfPlayers(p) == self.startListSnakes(s):
+                        if self.posOfPlayers[p] == self.startListSnakes[s]:
                             hitSnake = True
-                            print(self.nameOfPlayers(p), " has hit a snake that spans from ", self.startListSnakes(s), " to ", self.endListSnakes(s))
-                            self.posOfPlayers(p) == self.endListSnakes(s)
-                            print(self.nameOfPlayers(p), " is on square number ", self.posOfPlayers(p))
+                            print(self.nameOfPlayers[p], " has hit a snake that spans from ", self.startListSnakes[s], " to ", self.endListSnakes[s])
+                            self.posOfPlayers[p] == self.endListSnakes[s]
+                            print(self.nameOfPlayers[p], " is on square number ", self.posOfPlayers[p])
                         #endif
                         s += 1
                     #endwhile
@@ -282,11 +288,11 @@ class Game():
                     l = 0
                     #checks if player has hit ladder
                     while l != len(self.startListLadders) or hitLadder != True:
-                        if self.posOfPlayers(p) == self.startListSnakes(l):
+                        if self.posOfPlayers[p] == self.startListSnakes[l]:
                             hitLadder = True
-                            print(self.nameOfPlayers(p), " has hit a ladder that spans from ", self.startListLadders(l), " to ", self.endListLadders(l))
-                            self.posOfPlayers(p) == self.endListLadders(l)
-                            print(self.nameOfPlayers(p), " is on square number ", self.posOfPlayers(p))
+                            print(self.nameOfPlayers[p], " has hit a ladder that spans from ", self.startListLadders[l], " to ", self.endListLadders[l])
+                            self.posOfPlayers[p] == self.endListLadders[l]
+                            print(self.nameOfPlayers[p], " is on square number ", self.posOfPlayers[p])
                         #endif
                         l += 1
                     #endwhile
