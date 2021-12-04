@@ -54,8 +54,8 @@ class tile(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
     #initialise x_speed for player
-    #x_speed = 0
-    #y_speed = 0
+    x_speed = 0
+    y_speed = 0
 
     # Define the constructor for snow 
     def __init__(self):
@@ -76,12 +76,27 @@ class Player(pygame.sprite.Sprite):
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
-        x_speed, y_speed = Game.keyPress()
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN: # - a key is down 
+                if event.key == pygame.K_LEFT: # - if the left key pressed 
+                    self.x_speed = -1 # speed set to -3
+                elif event.key == pygame.K_RIGHT: # - if the right key pressed
+                    self.x_speed = 1 # speed set to 3
+                elif event.key == pygame.K_UP:
+                    self.y_speed = -1
+                elif event.key == pygame.K_DOWN:
+                    self.y_speed = 1
+                elif event.key == pygame.K_SPACE: #stop player
+                    self.x_speed = 0
+                    self.y_speed = 0
+                #endif
+            #endif
+        #next
         #keep player within screen while moving player
-        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.xx_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.xx_speed < 0):
-            self.rect.x = self.rect.x + x_speed
-        elif (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and self.xy_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and self.xy_speed < 0):
-            self.rect.y = self.rect.y + y_speed
+        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.x_speed < 0):
+            self.rect.x = self.rect.x + self.x_speed
+        elif (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and self.y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and self.y_speed < 0):
+            self.rect.y = self.rect.y + self.y_speed
         #endif
     #endprocedure
 #End Class
@@ -92,21 +107,9 @@ class Game():
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 done = True
-            elif event.type == pygame.KEYDOWN: # - a key is down 
-                if event.key == pygame.K_LEFT: # - if the left key pressed 
-                    x_speed = -1 # speed set to -3
-                elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                    x_speed = 1 # speed set to 3
-                elif event.key == pygame.K_UP:
-                    y_speed = -1
-                elif event.key == pygame.K_DOWN:
-                    y_speed = 1
-                elif event.key == pygame.K_SPACE: #stop player
-                    x_speed = 0
-                    y_speed = 0
-                #endif
+            else:
+                Player.update()
             #endif
-            return x_speed, y_speed
         #next
     #endprocedure
 #endclass
