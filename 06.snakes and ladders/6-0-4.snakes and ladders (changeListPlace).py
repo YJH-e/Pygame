@@ -267,6 +267,7 @@ class Game():
         #endwhile
         #flag of any one of the players winning
         win =False
+        #actual game starts here
         while win != True:
             for p in self.nameOfPlayers:
                 #roll dice and add to player position (as square number)
