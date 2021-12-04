@@ -22,7 +22,17 @@ done = False
 # -- Manages how fast screen refreshes 
 clock = pygame.time.Clock()
 
-
+#map
+map = [[1,1,1,1,1,1,1,1,1,1], 
+[1,0,0,0,0,0,0,0,0,1],
+[1,0,0,0,0,0,0,0,0,1], 
+[1,1,0,1,1,1,1,1,0,1], 
+[1,0,0,0,0,0,1,0,0,1],
+[1,0,1,1,1,0,1,0,0,1],
+[1,0,1,1,1,0,1,0,0,1], 
+[1,0,1,1,1,0,1,0,0,1], 
+[1,0,0,0,0,0,0,0,0,1], 
+[1,1,1,1,1,1,1,1,1,1]]
 
 class tile(pygame.sprite.Sprite): 
     # Define the constructor for invader 
@@ -70,7 +80,8 @@ while not done:
     # -- Game logic goes after this comment
     # -- Screen background is BLACK 
     screen.fill (BLACK) 
-    
+    # -- Draw here
+    all_sprites_list.draw(screen)
     # -- flip display to reveal new position of objects 
     pygame.display.flip()
     # - The clock ticks over 
