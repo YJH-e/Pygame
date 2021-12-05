@@ -54,12 +54,14 @@ class tile(pygame.sprite.Sprite):
 
 class Player(pygame.sprite.Sprite):
     #initialise x_speed for player
+    x_co = 21
+    y_co = 21
     x_speed = 0
     y_speed = 0
 
     # Define the constructor for snow 
     def __init__(self):
-        # Call the sprite constructor 
+        # Call the sprite constructor
         super().__init__() 
         # Create a sprite and put a picture on it
         playerImage = pygame.image.load('PacMan_simple.png')
@@ -69,29 +71,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = 21 
         self.rect.y = 21
 
-        x_pos = self.rect.x
-        y_pos = self.rect.y
-
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
     def update(self):
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN: # - a key is down 
-                if event.key == pygame.K_LEFT: # - if the left key pressed 
-                    self.x_speed = -1 # speed set to -3
-                elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                    self.x_speed = 1 # speed set to 3
-                elif event.key == pygame.K_UP:
-                    self.y_speed = -1
-                elif event.key == pygame.K_DOWN:
-                    self.y_speed = 1
-                elif event.key == pygame.K_SPACE: #stop player
-                    self.x_speed = 0
-                    self.y_speed = 0
-                #endif
-            #endif
-        #next
         #keep player within screen while moving player
         if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.x_speed < 0):
             self.rect.x = self.rect.x + self.x_speed
@@ -102,54 +85,76 @@ class Player(pygame.sprite.Sprite):
 #End Class
 
 class Game():
-    def keyPress():
+    p = Player()
+    player_x_speed = 0
+    player_y_speed = 0
+
+    # Create a list of all sprites 
+    all_sprites_list = pygame.sprite.Group() 
+    # Create a list of tiles for the walls 
+    wall_list = pygame.sprite.Group()
+
+    def __init__(self):
+        # Create walls on the screen (each tile is 20 x 20 so alter cords)
+        for y in range(10): 
+            for x in range (10): 
+                if map[x][y] == 1: 
+                    my_wall = tile(BLUE, 20, 20, x*20, y *20) 
+                    self.wall_list.add(my_wall) 
+                    self.all_sprites_list.add(my_wall)
+                #endif
+            #next
+        #next
+        # Create PacMan x 1
+        player = Player()
+        self.all_sprites_list.add (player) # adds it to the group of all Sprites
+    #endprocedure
+
+    def keyPress(self):
         # -- User input and controls
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 done = True
-            else:
-                Player.update()
+                return done
+            elif event.type == pygame.KEYDOWN: # - a key is down 
+                if event.key == pygame.K_LEFT: # - if the left key pressed 
+                    self.player_x_speed = -1 # speed set to -3
+                elif event.key == pygame.K_RIGHT: # - if the right key pressed
+                    self.player_x_speed = 1 # speed set to 3
+                elif event.key == pygame.K_UP:
+                    self.player_y_speed = -1
+                elif event.key == pygame.K_DOWN:
+                    self.player_y_speed = 1
+                elif event.key == pygame.K_SPACE: #stop player
+                    self.player_x_speed = 0
+                    self.player_y_speed = 0
+                #endif
+                return self.player_x_speed, self.player_y_speed
+            #endif
             #endif
         #next
+    #endprocedure
+
+    def displayScreen(self):
+        # -- Screen background is BLACK 
+        screen.fill (BLACK) 
+        # -- Draw here
+        self.all_sprites_list.draw(screen)
+        self.all_sprites_list.update()
+        # -- flip display to reveal new position of objects 
+        pygame.display.flip()
+        # - The clock ticks over 
+        clock.tick(60)
     #endprocedure
 #endclass
 
 
-# Create a list of all sprites 
-all_sprites_list = pygame.sprite.Group() 
- 
-# Create a list of tiles for the walls 
-wall_list = pygame.sprite.Group()
- 
-# Create walls on the screen (each tile is 20 x 20 so alter cords)
-for y in range(10): 
-    for x in range (10): 
-        if map[x][y] == 1: 
-            my_wall = tile(BLUE, 20, 20, x*20, y *20) 
-            wall_list.add(my_wall) 
-            all_sprites_list.add(my_wall)
-        #endif
-    #next
-#next
-
-# Create PacMan x 1
-player = Player() # snowflakes are white with size 5 by 5 px
-all_sprites_list.add (player) # adds it to the group of all Sprites
-
-
+g = Game()
 # PYGAME LOOP
 ### -- Game Loop 
 while not done:
-    
+    g.keyPress
     # -- Game logic goes after this comment
-    # -- Screen background is BLACK 
-    screen.fill (BLACK) 
-    # -- Draw here
-    all_sprites_list.draw(screen)
-    all_sprites_list.update()
-    # -- flip display to reveal new position of objects 
-    pygame.display.flip()
-    # - The clock ticks over 
-    clock.tick(60) 
+    g.displayScreen()
 #End While - End of game loop 
 pygame.quit()### -- Game Loop
