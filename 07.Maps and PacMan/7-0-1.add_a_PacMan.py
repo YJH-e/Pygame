@@ -74,17 +74,19 @@ class Player(pygame.sprite.Sprite):
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
-    def update(self):
+    def update(self, x_speed, y_speed):
         #keep player within screen while moving player
-        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.x_speed < 0):
-            self.rect.x = self.rect.x + self.x_speed
-        elif (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and self.y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and self.y_speed < 0):
-            self.rect.y = self.rect.y + self.y_speed
+        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and x_speed < 0):
+            self.rect.x = self.rect.x + x_speed
+        elif (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and y_speed < 0):
+            self.rect.y = self.rect.y + y_speed
         #endif
     #endprocedure
 #End Class
 
 class Game():
+    done = False
+
     p = Player()
     player_x_speed = 0
     player_y_speed = 0
@@ -114,8 +116,7 @@ class Game():
         # -- User input and controls
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
-                done = True
-                return done
+                self.done = True
             elif event.type == pygame.KEYDOWN: # - a key is down 
                 if event.key == pygame.K_LEFT: # - if the left key pressed 
                     self.player_x_speed = -1 # speed set to -3
@@ -129,10 +130,9 @@ class Game():
                     self.player_x_speed = 0
                     self.player_y_speed = 0
                 #endif
-                return self.player_x_speed, self.player_y_speed
-            #endif
             #endif
         #next
+        #return self.done, self.player_x_speed, self.player_y_speed
     #endprocedure
 
     def displayScreen(self):
@@ -140,7 +140,7 @@ class Game():
         screen.fill (BLACK) 
         # -- Draw here
         self.all_sprites_list.draw(screen)
-        self.all_sprites_list.update()
+        self.all_sprites_list.update(self.player_x_speed, self.player_y_speed)
         # -- flip display to reveal new position of objects 
         pygame.display.flip()
         # - The clock ticks over 
@@ -153,7 +153,7 @@ g = Game()
 # PYGAME LOOP
 ### -- Game Loop 
 while not done:
-    g.keyPress
+    done, g.keyPress
     # -- Game logic goes after this comment
     g.displayScreen()
 #End While - End of game loop 
