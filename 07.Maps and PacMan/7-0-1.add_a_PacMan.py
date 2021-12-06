@@ -56,8 +56,8 @@ class Player(pygame.sprite.Sprite):
     #initialise x_speed for player
     x_co = 21
     y_co = 21
-    x_speed = 0
-    y_speed = 0
+    #x_speed = 0
+    #y_speed = 0
 
     # Define the constructor for snow 
     def __init__(self):
@@ -81,15 +81,13 @@ class Player(pygame.sprite.Sprite):
         elif (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and y_speed < 0):
             self.rect.y = self.rect.y + y_speed
         #endif
+
+        
     #endprocedure
 #End Class
 
 class Game():
     done = False
-
-    
-    player_x_speed = 0
-    player_y_speed = 0
 
     # Create a list of all sprites 
     all_sprites_list = pygame.sprite.Group() 
@@ -112,12 +110,12 @@ class Game():
     def newPlayer(self):
         # Create PacMan x 1
         p = Player()
-        self.all_sprites_list.add (p) # adds it to the group of all Sprites
+        self.all_sprites_list.add(p) # adds it to the group of all Sprites
         return p
     #endfunction
 
-    def keyPress(self):
-        #p = Player()
+    def keyPress(self,p):
+        self.done = False
         # -- User input and controls
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
@@ -127,16 +125,28 @@ class Game():
                     p.movePlayer(-1,0)
                 elif event.key == pygame.K_RIGHT: # - if the right key pressed
                     p.movePlayer(1,0)
-                elif event.key == pygame.K_UP:
+                #endif
+                if event.key == pygame.K_UP:
                     p.movePlayer(0,-1)
                 elif event.key == pygame.K_DOWN:
                     p.movePlayer(0,1)
-                elif event.key == pygame.K_SPACE: #stop player
+                #endif
+                if event.key == pygame.K_SPACE: #stop player
                     p.movePlayer(0,0)
                 #endif
+
+                # -- Check for collisions between pacman and wall tiles 
+                player_hit_list = pygame.sprite.spritecollide(p, self.wall_list, False)
+                print (p.rect.x) 
+                for foo in player_hit_list: 
+                    p.movePlayer(0,0)
+                #next
+
+                self.all_sprites_list.add(p)
+
             #endif
         #next
-        #return self.done, self.player_x_speed, self.player_y_speed
+        return self.done
     #endprocedure
 
     def displayScreen(self):
@@ -144,7 +154,7 @@ class Game():
         screen.fill (BLACK) 
         # -- Draw here
         self.all_sprites_list.draw(screen)
-        self.all_sprites_list.update(self.player_x_speed, self.player_y_speed)
+        self.all_sprites_list.update()
         # -- flip display to reveal new position of objects 
         pygame.display.flip()
         # - The clock ticks over 
@@ -158,8 +168,7 @@ p = g.newPlayer()
 # PYGAME LOOP
 ### -- Game Loop 
 while not done:
-    #done = 
-    g.keyPress
+    done = g.keyPress(p)
     # -- Game logic goes after this comment
     g.displayScreen()
 #End While - End of game loop 

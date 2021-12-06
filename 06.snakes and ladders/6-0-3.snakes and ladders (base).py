@@ -313,4 +313,4 @@ class Game():
 
 ##############################################           Game display...see terminal           ##############################################
 g = Game()
-g.playGame
+g.playGame()

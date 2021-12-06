@@ -163,6 +163,7 @@ class Board():
         Board.createLadder
         Board.createPlayer
         Board.displayBoard
+        print("hello from after initialising board")
     #endprocedure
 
     # Create the snakes
@@ -241,6 +242,7 @@ class Board():
     #endprocedure
 
     def getAllLists(self):
+        print("hello from subroutine in Board class giving Game class its lists")
         return self.startListSnakes, self.endListSnakes, self.startListLadders, self.endListLadders, self.posOfPlayers, self.nameOfPlayers
     #endfunction
 #end class
@@ -255,24 +257,29 @@ class Game():
     posOfPlayers = []
     nameOfPlayers = []
 
-    #flag of initialising Game (get all lists above required)
-    listObtained = False
+    d = Dice()
 
     def playGame(self):
+        print("hello from subroutine playGame")
         #initialise board
         b = Board()
-        while self.listObtained == False:
-                self.startListSnakes, self.endListSnakes, self.startListLadders, self.endListLadders, self.posOfPlayers, self.nameOfPlayers = b.getAllLists()
-                self.listObtained = True
+        #flag of initialising Game (get all lists above required)
+        listObtained = False
+        while listObtained == False:
+            print("hello from subroutine in Game class asking for lists from Board object")
+            self.startListSnakes, self.endListSnakes, self.startListLadders, self.endListLadders, self.posOfPlayers, self.nameOfPlayers = b.getAllLists()
+            listObtained = True
         #endwhile
         #flag of any one of the players winning
         win =False
         #actual game starts here
         while win != True:
+            #we have an inifinite loop here
+            print("hello from actual game loop of moving players")
             for p in self.nameOfPlayers:
-                #roll dice and add to player position (as square number)
-                d = Dice()
-                r = d.roll
+                print("hello from loop of moving an individual player")
+                #roll dice and add to player position (as square number)                
+                r = self.d.roll
                 #use the created object dice and roll it
                 self.posOfPlayers[p] += r
                 print(self.nameOfPlayers[p], "rolled a ", r, "and is now on square numebr ", self.posOfPlayers[p])
@@ -324,4 +331,4 @@ class Game():
 
 ##############################################           Game display...see terminal           ##############################################
 g = Game()
-g.playGame
+g.playGame()
