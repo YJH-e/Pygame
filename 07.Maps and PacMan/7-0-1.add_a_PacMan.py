@@ -127,8 +127,10 @@ class Game():
                     p.movePlayer(1,0)
                 #endif
                 if event.key == pygame.K_UP:
+                    print("moving player up the screen")
                     p.movePlayer(0,-1)
                 elif event.key == pygame.K_DOWN:
+                    print("moving player up the screen")
                     p.movePlayer(0,1)
                 #endif
                 if event.key == pygame.K_SPACE: #stop player

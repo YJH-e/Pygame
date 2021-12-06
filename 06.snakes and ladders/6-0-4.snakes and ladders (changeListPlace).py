@@ -270,13 +270,57 @@ class Game():
             self.startListSnakes, self.endListSnakes, self.startListLadders, self.endListLadders, self.posOfPlayers, self.nameOfPlayers = b.getAllLists()
             listObtained = True
         #endwhile
+
+        #display all start square numbers for snakes
+        print("Below are all start square numbers for snakes")
+        print(len(self.startListSnakes))
+        for num1 in range (0, len(self.startListSnakes)):
+            print(self.startListSnakes[num1])
+        #next
+
+        #display all end square numbers for snakes
+        print("Below are all end square numbers for snakes")
+        print(len(self.endListSnakes))
+        for num2 in range (0, len(self.endListSnakes)):
+            print(self.endListSnakes[num2])
+        #next
+
+        #display all start square numbers for ladders
+        print("Below are all start square numbers for ladders")
+        print(len(self.startListLadders))
+        for num3 in range (0, len(self.startListLadders)):
+            print(self.startListLadders[num3])
+        #next
+
+        #display all end square numbers for ladders
+        print("Below are all end square numbers for ladders")
+        print(len(self.endListLadders))
+        for num4 in range (0, len(self.startListLadders)):
+            print(self.endListLadders[num4])
+        #next
+
+        #display all positions as in square number of players
+        print("Below are all positions as in square number of players")
+        print(len(self.posOfPlayers))
+        for num5 in range (0, len(self.posOfPlayers)):
+            print(self.posOfPlayers[num5])
+        #next
+
+        #display all names of players
+        print("Below are all names of players")
+        print(len(self.nameOfPlayers))
+        for num6 in range (0, len(self.nameOfPlayers)):
+            print(self.nameOfPlayers[num6])
+        #next
+    #endprocedure
+
+
         #flag of any one of the players winning
-        win =False
+        win = False
         #actual game starts here
-        while win != True:
-            #we have an inifinite loop here
-            print("hello from actual game loop of moving players")
-            for p in self.nameOfPlayers:
+        while win  == False:
+            p = 0
+            for p in range (0, len(self.nameOfPlayers)):
                 print("hello from loop of moving an individual player")
                 #roll dice and add to player position (as square number)                
                 r = self.d.roll
