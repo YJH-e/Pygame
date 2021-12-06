@@ -159,15 +159,62 @@ class Board():
 
     #board constructor
     def __init__(self):
+        #b = Board()
         Board.createSnake
         Board.createLadder
         Board.createPlayer
+        print("next line of code displays board")
         Board.displayBoard
+        
+        #display all start square numbers for snakes
+        print("Below are all start square numbers for snakes")
+        print(len(self.startListSnakes))
+        for num1 in range (0, len(self.startListSnakes)):
+            print(self.startListSnakes[num1])
+        #next
+
+        #display all end square numbers for snakes
+        print("Below are all end square numbers for snakes")
+        print(len(self.endListSnakes))
+        for num2 in range (0, len(self.endListSnakes)):
+            print(self.endListSnakes[num2])
+        #next
+
+        #display all start square numbers for ladders
+        print("Below are all start square numbers for ladders")
+        print(len(self.startListLadders))
+        for num3 in range (0, len(self.startListLadders)):
+            print(self.startListLadders[num3])
+        #next
+
+        #display all end square numbers for ladders
+        print("Below are all end square numbers for ladders")
+        print(len(self.endListLadders))
+        for num4 in range (0, len(self.startListLadders)):
+            print(self.endListLadders[num4])
+        #next
+
+        #display all positions as in square number of players
+        print("Below are all positions as in square number of players")
+        print(len(self.posOfPlayers))
+        for num5 in range (0, len(self.posOfPlayers)):
+            print(self.posOfPlayers[num5])
+        #next
+
+        #display all names of players
+        print("Below are all names of players")
+        print(len(self.nameOfPlayers))
+        for num6 in range (0, len(self.nameOfPlayers)):
+            print(self.nameOfPlayers[num6])
+        #next
+       
+
         print("hello from after initialising board")
     #endprocedure
 
     # Create the snakes
     def createSnake(self):
+        print("creating snakes")
         number_of_snakes = 5 # we are creating 5 snakes
         for x in range (number_of_snakes): 
             snakes = Snakes()
@@ -181,6 +228,7 @@ class Board():
 
     # Create the ladders
     def createLadder(self):
+        print("creating ladders")
         number_of_ladders = 5 # we are creating 5 ladders
         for x in range (number_of_ladders): 
             ladders = Ladders()
@@ -193,6 +241,7 @@ class Board():
 
     # Create the players
     def createPlayer(self):
+        print("creating players")
         number_of_players = 2 # we are creating 2 players
         for x in range (number_of_players): 
             players = Players()
