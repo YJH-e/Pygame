@@ -74,7 +74,7 @@ class Player(pygame.sprite.Sprite):
     #End Procedure
     
     # Class update function - runs for each pass through the game loop 
-    def update(self, x_speed, y_speed):
+    def movePlayer(self, x_speed, y_speed):
         #keep player within screen while moving player
         if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and x_speed < 0):
             self.rect.x = self.rect.x + x_speed
@@ -87,7 +87,7 @@ class Player(pygame.sprite.Sprite):
 class Game():
     done = False
 
-    p = Player()
+    
     player_x_speed = 0
     player_y_speed = 0
 
@@ -107,28 +107,32 @@ class Game():
                 #endif
             #next
         #next
-        # Create PacMan x 1
-        player = Player()
-        self.all_sprites_list.add (player) # adds it to the group of all Sprites
     #endprocedure
 
+    def newPlayer(self):
+        # Create PacMan x 1
+        p = Player()
+        self.all_sprites_list.add (p) # adds it to the group of all Sprites
+        return p
+    #endfunction
+
     def keyPress(self):
+        #p = Player()
         # -- User input and controls
         for event in pygame.event.get(): 
             if event.type == pygame.QUIT: 
                 self.done = True
             elif event.type == pygame.KEYDOWN: # - a key is down 
                 if event.key == pygame.K_LEFT: # - if the left key pressed 
-                    self.player_x_speed = -1 # speed set to -3
+                    p.movePlayer(-1,0)
                 elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                    self.player_x_speed = 1 # speed set to 3
+                    p.movePlayer(1,0)
                 elif event.key == pygame.K_UP:
-                    self.player_y_speed = -1
+                    p.movePlayer(0,-1)
                 elif event.key == pygame.K_DOWN:
-                    self.player_y_speed = 1
+                    p.movePlayer(0,1)
                 elif event.key == pygame.K_SPACE: #stop player
-                    self.player_x_speed = 0
-                    self.player_y_speed = 0
+                    p.movePlayer(0,0)
                 #endif
             #endif
         #next
@@ -150,10 +154,12 @@ class Game():
 
 
 g = Game()
+p = g.newPlayer()
 # PYGAME LOOP
 ### -- Game Loop 
 while not done:
-    done, g.keyPress
+    #done = 
+    g.keyPress
     # -- Game logic goes after this comment
     g.displayScreen()
 #End While - End of game loop 
