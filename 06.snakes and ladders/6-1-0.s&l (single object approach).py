@@ -41,22 +41,146 @@ class Obstacle():
     #endfunction
 #end class
 
-#class snakes
+#class Snake (single object)
 class Snake(Obstacle):
     start = 0
     end = 0
 
     #snake constructor is in obstacle constructor
     def __init__(self):
-        start, end = super().__init__()
+        self.end, self.start = super().__init__()
     #endfunction
 
     #get start of snake
     def getStartSnake(self):
+        print(self.start)
         return self.start
     #endfunction
 
     def getEndSnake(self):
+        print(self.end)
         return self.end
     #endfunction
+
+    def display(self):
+        print(self.start, self.end)
+    #endprocedure
 #end class
+
+#class Ladder (single object)
+class Ladder(Obstacle):
+    start = 0
+    end = 0
+
+    #snake constructor is in obstacle constructor
+    def __init__(self):
+        self.start, self.end = super().__init__()
+    #endfunction
+
+    #get start of snake
+    def getStartLadder(self):
+        return self.start
+    #endfunction
+
+    def getEndLadder(self):
+        return self.end
+    #endfunction
+
+    def display(self):
+        print(self.start, self.end)
+    #endprocedure
+#end class
+
+#class Player
+class Player():
+    #list holding all player position
+    posOfPlayer = 0
+    nameOfPlayer = ""
+
+    #player constructor (initialises player position off the board at square  no.0)
+    def __init__(self, name):
+        self.posOfPlayer = 0
+        nameOfPlayer = name
+    #endfunction
+
+    #get player position
+    def getPlayerPos(self):
+        return self.posOfPlayer
+    #endfunction
+
+    #get player name
+    def getPlayerName(self):
+        return self.nameOfPlayer
+    #endfunction
+#end class
+
+#class Dice
+class Dice():
+    #can have different number of faces and dices/can later be a user input
+    diceFace = 6
+    
+    #roll a random integer method
+    def roll(self):
+        return random.randrange(1, self.diceFace) 
+    #endfuntion
+#endclass
+
+#class Game
+class Game():
+    snakesStartList = []
+    snakesEndList = []
+    laddersStartList = []
+    laddersEndList = []
+    playersPosList = []
+    playersNameList = []
+
+    # Create a snake    
+    def createSnake(self):
+        print("creating snakes")
+        number_of_snakes = 5 # we are creating 5 snakes
+        x = 0
+        for x in range (0, number_of_snakes):
+            print("creating individual snakes")
+            s = Snake()
+            start = s.getStartSnake
+            end = s.getEndSnake
+            print(start)
+            print(end)
+
+            self.snakesStartList.append(s.getStartSnake)
+            self.snakesEndList.append(s.getEndSnake)
+        #Next
+    #endprocedure
+
+    def display(self):
+        print("Below are the start square numbers of snakes")
+        s1 = 0
+        for s1 in range (0, len(self.snakesStartList)):
+            print(self.snakesStartList[s1])
+        #next
+        print("Below are the end square numbers of snakes")
+        s2 = 0
+        for s2 in range (0, len(self.snakesEndList)):
+            print(self.snakesEndList[s2])
+        #next
+    #endprocedure
+
+    def displayOthers(self):
+        print("Below are the start square numbers of ladders")
+        l1 = 0
+        for l1 in range (0, len(self.laddersStartList)):
+            print(self.laddersStartList[l1])
+        #next
+        print("Below are the end square numbers of ladders")
+        l2 = 0
+        for l2 in range (0, len(self.laddersEndList)):
+            print(self.laddersEndList[l2])
+        #next
+    #endprocedure
+#endclass
+
+s = Snake()
+s.display
+g = Game()
+g.createSnake()
+#g.display()

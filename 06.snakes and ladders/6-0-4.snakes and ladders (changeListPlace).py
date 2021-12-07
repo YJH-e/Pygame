@@ -182,6 +182,9 @@ class Board():
             self.everythingList.append(snakes)
         #Next x
         #tempStart = Snakes.getStartSnakesList()
+        for snake in self.snakeList:
+            self.startListSnakes.append(snake.start)
+
         self.startListSnakes =  Snakes.getStartSnakesList(self)
         self.endListSnakes = Snakes.getEndSnakesList(self)
 
@@ -228,8 +231,8 @@ class Board():
         number_of_players = 2 # we are creating 2 players
         for x in range (number_of_players): 
             players = Players()
-            self.playerList.add(players)
-            self.everythingList.add(players)
+            self.playerList.append(players)
+            self.everythingList.append(players)
         #Next x
         self.posOfPlayers = Players.getPlayerPos(self)
         self.nameOfPlayers = Players.getPlayerNames(self)
