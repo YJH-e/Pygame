@@ -45,13 +45,16 @@ class Obstacle():
             for j in range (0,i):
                 while self.start == self.allList[j]:
                     self.start = random.randrange(1,98)
+                    print("generated in Obstacle class", self.start)
                 #endwhile
                 while self.end == self.allList[j]:
                     self.end = random.randrange(self.start + 1,99)
+                    print("generated in Obstacle class", self.end)
                 #endwhile
             #next
         #endif
         #add coordinate of new obstacle to coordinate lists
+        
         self.allList.append(self.start)
         self.allList.append(self.end)
         #next                
@@ -158,58 +161,15 @@ class Board():
     nameOfPlayers = []    
 
     #board constructor
-    def __init__(self):
+    #def __init__(self):
         #b = Board()
-        Board.createSnake
-        Board.createLadder
-        Board.createPlayer
-        print("next line of code displays board")
-        Board.displayBoard
+        #Board.createSnake
+        #Board.createLadder
+        #Board.createPlayer
+        #print("next line of code displays board")
+        #Board.displayBoard
         
-        #display all start square numbers for snakes
-        print("Below are all start square numbers for snakes")
-        print(len(self.startListSnakes))
-        for num1 in range (0, len(self.startListSnakes)):
-            print(self.startListSnakes[num1])
-        #next
-
-        #display all end square numbers for snakes
-        print("Below are all end square numbers for snakes")
-        print(len(self.endListSnakes))
-        for num2 in range (0, len(self.endListSnakes)):
-            print(self.endListSnakes[num2])
-        #next
-
-        #display all start square numbers for ladders
-        print("Below are all start square numbers for ladders")
-        print(len(self.startListLadders))
-        for num3 in range (0, len(self.startListLadders)):
-            print(self.startListLadders[num3])
-        #next
-
-        #display all end square numbers for ladders
-        print("Below are all end square numbers for ladders")
-        print(len(self.endListLadders))
-        for num4 in range (0, len(self.startListLadders)):
-            print(self.endListLadders[num4])
-        #next
-
-        #display all positions as in square number of players
-        print("Below are all positions as in square number of players")
-        print(len(self.posOfPlayers))
-        for num5 in range (0, len(self.posOfPlayers)):
-            print(self.posOfPlayers[num5])
-        #next
-
-        #display all names of players
-        print("Below are all names of players")
-        print(len(self.nameOfPlayers))
-        for num6 in range (0, len(self.nameOfPlayers)):
-            print(self.nameOfPlayers[num6])
-        #next
-       
-
-        print("hello from after initialising board")
+        #print("hello from after initialising board")
     #endprocedure
 
     # Create the snakes
@@ -222,8 +182,20 @@ class Board():
             self.everythingList.append(snakes)
         #Next x
         #tempStart = Snakes.getStartSnakesList()
-        self.startListSnakes =  Snakes.getStartSnakesList()
-        self.endListSnakes = Snakes.getEndSnakesList()
+        self.startListSnakes =  Snakes.getStartSnakesList(self)
+        self.endListSnakes = Snakes.getEndSnakesList(self)
+
+        #display all start square numbers for snakes
+        print("Below are all start square numbers for snakes")
+        for num1 in range (0, len(self.startListSnakes)):
+            print(self.startListSnakes[num1])
+        #next
+
+        #display all end square numbers for snakes
+        print("Below are all end square numbers for snakes")
+        for num2 in range (0, len(self.endListSnakes)):
+            print(self.endListSnakes[num2])
+        #next
     #endprocedure
 
     # Create the ladders
@@ -235,8 +207,19 @@ class Board():
             self.ladderList.append(ladders)
             self.everythingList.append(ladders)
         #Next x
-        self.startListLadders = Ladders.getStartLaddersList()
-        self.endListLadders = Ladders.getEndLaddersList()
+        self.startListLadders = Ladders.getStartLaddersList(self)
+        self.endListLadders = Ladders.getEndLaddersList(self)
+
+        #display all start square numbers for ladders
+        print("Below are all start square numbers for ladders")
+        for num3 in range (0, len(self.startListLadders)):
+            print(self.startListLadders[num3])
+        #next
+
+        #display all end square numbers for ladders
+        print("Below are all end square numbers for ladders")
+        for num4 in range (0, len(self.startListLadders)):
+            print(self.endListLadders[num4])
     #endprocedure
 
     # Create the players
@@ -245,11 +228,23 @@ class Board():
         number_of_players = 2 # we are creating 2 players
         for x in range (number_of_players): 
             players = Players()
-            self.playerList.append(players)
-            self.everythingList.append(players)
+            self.playerList.add(players)
+            self.everythingList.add(players)
         #Next x
-        self.posOfPlayers = Players.getPlayerPos()
-        self.nameOfPlayers = Players.getPlayerNames()
+        self.posOfPlayers = Players.getPlayerPos(self)
+        self.nameOfPlayers = Players.getPlayerNames(self)
+
+        #display all positions as in square number of players
+        print("Below are all positions as in square number of players")
+        for num5 in range (0, len(self.posOfPlayers)):
+            print(self.posOfPlayers[num5])
+        #next
+
+        #display all names of players
+        print("Below are all names of players")
+        for num6 in range (0, len(self.nameOfPlayers)):
+            print(self.nameOfPlayers[num6])
+
     #procedure
 
     def displayBoard(self):
@@ -312,6 +307,9 @@ class Game():
         print("hello from subroutine playGame")
         #initialise board
         b = Board()
+        b.createSnake()
+        b.createLadder()
+        b.createPlayer()
         #flag of initialising Game (get all lists above required)
         listObtained = False
         while listObtained == False:
@@ -319,6 +317,7 @@ class Game():
             self.startListSnakes, self.endListSnakes, self.startListLadders, self.endListLadders, self.posOfPlayers, self.nameOfPlayers = b.getAllLists()
             listObtained = True
         #endwhile
+        b.displayBoard()
 
         #display all start square numbers for snakes
         print("Below are all start square numbers for snakes")
