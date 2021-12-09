@@ -17,19 +17,16 @@ class Obstacle():
         #randomly generate the start and end of the obstacle
         start = random.randrange(1,98)
         end = random.randrange(start + 1,99)
-
         #check if the start of end is already existing                         #this piece of code (in the function) is quite inefficient with O(n^2)
         i = len(self.allList)
         if i > 0:
             j = 0
             for j in range (0,i):
-                while self.start == self.allList[j]:
+                while start == self.allList[j]:
                     start = random.randrange(1,98)
-                    print("generated in Obstacle class", start)
                 #endwhile
                 while end == self.allList[j]:
                     end = random.randrange(start + 1,99)
-                    print("generated in Obstacle class", end)
                 #endwhile
             #next
         #endif
@@ -53,17 +50,15 @@ class Snake(Obstacle):
 
     #get start of snake
     def getStartSnake(self):
-        print(self.start)
         return self.start
     #endfunction
 
     def getEndSnake(self):
-        print(self.end)
         return self.end
     #endfunction
 
-    def display(self):
-        print(self.start, self.end)
+    #def displaySnake(self):
+        #print(self.start, self.end)
     #endprocedure
 #end class
 
@@ -86,8 +81,8 @@ class Ladder(Obstacle):
         return self.end
     #endfunction
 
-    def display(self):
-        print(self.start, self.end)
+    #def displayLadder(self):
+        #print(self.start, self.end)
     #endprocedure
 #end class
 
@@ -134,21 +129,25 @@ class Game():
     playersPosList = []
     playersNameList = []
 
-    # Create a snake    
+    # Create a snake 5 times 
     def createSnake(self):
-        print("creating snakes")
         number_of_snakes = 5 # we are creating 5 snakes
         x = 0
         for x in range (0, number_of_snakes):
-            print("creating individual snakes")
             s = Snake()
-            start = s.getStartSnake
-            end = s.getEndSnake
-            print(start)
-            print(end)
+            self.snakesStartList.append(s.getStartSnake())
+            self.snakesEndList.append(s.getEndSnake())
+        #Next
+    #endprocedure
 
-            self.snakesStartList.append(s.getStartSnake)
-            self.snakesEndList.append(s.getEndSnake)
+    # Create a ladder 5 times   
+    def createLadder(self):
+        number_of_ladders = 5 # we are creating 5 ladders
+        y = 0
+        for y in range (0, number_of_ladders):
+            l = Ladder()
+            self.laddersStartList.append(l.getStartLadder())
+            self.laddersEndList.append(l.getEndLadder())
         #Next
     #endprocedure
 
@@ -163,9 +162,6 @@ class Game():
         for s2 in range (0, len(self.snakesEndList)):
             print(self.snakesEndList[s2])
         #next
-    #endprocedure
-
-    def displayOthers(self):
         print("Below are the start square numbers of ladders")
         l1 = 0
         for l1 in range (0, len(self.laddersStartList)):
@@ -179,8 +175,9 @@ class Game():
     #endprocedure
 #endclass
 
-s = Snake()
-s.display
+
+
 g = Game()
 g.createSnake()
-#g.display()
+g.createLadder()
+g.display()
