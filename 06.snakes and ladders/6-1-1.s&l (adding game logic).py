@@ -219,19 +219,7 @@ class Game():
                     print("Game Ends")
                 #endif
                 else:
-                    #flag of player hitting snake
-                    hitSnake = False
-                    s = 0
-                    #checks if player has hit snake
-                    while s < len(self.snakesStartList) and hitSnake != True:
-                        if self.playersPosList[p] == self.snakesStartList[s]:
-                            hitSnake = True
-                            print(self.playersNameList[p], " has hit a snake that spans from ", self.snakesStartList[s], " to ", self.snakesEndList[s])
-                            self.playersPosList[p] = self.snakesEndList[s]
-                            print(self.playersNameList[p], " is on square number ", self.playersPosList[p])
-                        #endif
-                        s += 1
-                    #endwhile
+
                     #flag of player hitting ladder
                     hitLadder = False
                     l = 0
@@ -245,6 +233,22 @@ class Game():
                         #endif
                         l += 1
                     #endwhile
+
+                    
+                    #flag of player hitting snake
+                    hitSnake = False
+                    s = 0
+                    #checks if player has hit snake
+                    while s < len(self.snakesStartList) and hitSnake != True:
+                        if self.playersPosList[p] == self.snakesStartList[s]:
+                            hitSnake = True
+                            print(self.playersNameList[p], " has hit a snake that spans from ", self.snakesStartList[s], " to ", self.snakesEndList[s])
+                            self.playersPosList[p] = self.snakesEndList[s]
+                            print(self.playersNameList[p], " is on square number ", self.playersPosList[p])
+                        #endif
+                        s += 1
+                    #endwhile
+                    
                 #endif
             #next player
         #endwhile
