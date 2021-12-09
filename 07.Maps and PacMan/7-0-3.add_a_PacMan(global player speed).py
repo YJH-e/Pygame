@@ -36,6 +36,8 @@ map = [[1,1,1,1,1,1,1,1,1,1],
 [1,0,0,0,0,0,0,0,0,1], 
 [1,1,1,1,1,1,1,1,1,1]]
 
+player_x_speed = 0
+player_y_speed = 0
 
 class tile(pygame.sprite.Sprite): 
     # Define the constructor for invader 
@@ -76,13 +78,13 @@ class Player(pygame.sprite.Sprite):
     # Class update function - runs for each pass through the game loop 
 
     # movePlayer not in update
-    def movePlayer(self, x_speed, y_speed):
+    def update(self):
         #keep player within screen while moving player
-        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and x_speed < 0):
-            self.rect.x = self.rect.x + x_speed
+        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and player_x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and player_x_speed < 0):
+            self.rect.x = self.rect.x + player_x_speed
         #endif
-        if (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and y_speed < 0):
-            self.rect.y = self.rect.y + y_speed
+        if (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and player_y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and player_y_speed < 0):
+            self.rect.y = self.rect.y + player_y_speed
         #endif
 
         
@@ -117,7 +119,7 @@ class Game():
         return p
     #endfunction
 
-    def keyPress(self, p):
+    def keyPress(self):
         self.done = False
         # -- User input and controls
         for event in pygame.event.get(): 
@@ -125,41 +127,36 @@ class Game():
                 self.done = True
             elif event.type == pygame.KEYDOWN: # - a key is down 
                 if event.key == pygame.K_UP:
-                    print("moving player up the screen")
-                    p.movePlayer(0,-1)
+                    player_x_speed = -1
                 elif event.key == pygame.K_DOWN:
-                    print("moving player up the screen")
-                    p.movePlayer(0,1)
+                    player_x_speed = 1
                 #endif
-
                 if event.key == pygame.K_LEFT: # - if the left key pressed
-                    print("moving player left")
-                    p.movePlayer(-1,0)
+                    player_y_speed = -1
                 elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                    print("moving player right")
-                    p.movePlayer(1,0)
-                #endif
-                
-                
+                    player_y_speed = 1
+                #endif               
                 if event.key == pygame.K_SPACE: #stop player
-                    p.movePlayer(0,0)
+                    player_x_speed = 0
+                    player_y_speed = 0
                 #endif
 
                 # -- Check for collisions between pacman and wall tiles 
                 player_hit_list = pygame.sprite.spritecollide(p, self.wall_list, False)
                 print (p.rect.x) 
                 for foo in player_hit_list: 
-                    p.movePlayer(0,0)
+                    player_x_speed = 0
+                    player_y_speed = 0
                 #next
 
-                self.all_sprites_list.add(p)
+                #self.all_sprites_list.add(p)
 
             #endif
         #next
         return self.done
     #endprocedure
 
-    def displayScreen(self,p):
+    def displayScreen(self):
         # -- Screen background is BLACK 
         screen.fill (BLACK) 
         # -- Draw here
@@ -178,8 +175,8 @@ p = g.newPlayer()
 # PYGAME LOOP
 ### -- Game Loop 
 while not done:
-    done = g.keyPress(p)
+    done = g.keyPress()
     # -- Game logic goes after this comment
-    g.displayScreen(p)
+    g.displayScreen()
 #End While - End of game loop 
 pygame.quit()### -- Game Loop

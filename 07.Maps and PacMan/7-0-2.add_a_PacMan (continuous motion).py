@@ -1,3 +1,8 @@
+#I have written a function returning player x and y speeds from Game class after KeyPress
+#I do not know how to get the specific player x and y speeds from Game class to player class for updating player position
+
+
+
 ## -- Define the class tile which is a sprite 
 #PYGAME START-UP
 
@@ -91,6 +96,8 @@ class Player(pygame.sprite.Sprite):
 
 class Game():
     done = False
+    player_x_speed = 0
+    player_y_speed = 0
 
     # Create a list of all sprites 
     all_sprites_list = pygame.sprite.Group() 
@@ -125,39 +132,41 @@ class Game():
                 self.done = True
             elif event.type == pygame.KEYDOWN: # - a key is down 
                 if event.key == pygame.K_UP:
-                    print("moving player up the screen")
-                    p.movePlayer(0,-1)
+                    self.player_x_speed = -1
                 elif event.key == pygame.K_DOWN:
-                    print("moving player up the screen")
-                    p.movePlayer(0,1)
+                    self.player_x_speed = 1
                 #endif
 
                 if event.key == pygame.K_LEFT: # - if the left key pressed
-                    print("moving player left")
-                    p.movePlayer(-1,0)
+                    self.player_y_speed = -1
                 elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                    print("moving player right")
-                    p.movePlayer(1,0)
+                    self.player_y_speed = 1
                 #endif
                 
                 
                 if event.key == pygame.K_SPACE: #stop player
-                    p.movePlayer(0,0)
+                    self.player_x_speed = 0
+                    self.player_y_speed = 0
                 #endif
 
                 # -- Check for collisions between pacman and wall tiles 
                 player_hit_list = pygame.sprite.spritecollide(p, self.wall_list, False)
                 print (p.rect.x) 
                 for foo in player_hit_list: 
-                    p.movePlayer(0,0)
+                    self.player_x_speed = 0
+                    self.player_y_speed = 0
                 #next
 
-                self.all_sprites_list.add(p)
+                #self.all_sprites_list.add(p)
 
             #endif
         #next
         return self.done
     #endprocedure
+
+    def getPlayerSpeed(self):
+        return self.player_x_speed, self.player_y_speed
+    #endfunction
 
     def displayScreen(self,p):
         # -- Screen background is BLACK 
