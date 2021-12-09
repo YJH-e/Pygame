@@ -128,6 +128,7 @@ class Game():
     laddersEndList = []
     playersPosList = []
     playersNameList = []
+    
 
     # Create a snake 5 times 
     def createSnake(self):
@@ -151,6 +152,14 @@ class Game():
         #Next
     #endprocedure
 
+    def createPlayer(self):
+        p1 = Player("Player A")
+        self.playersPosList.append(p1.getPlayerPos())
+        self.playersNameList.append("Player A")
+        p2 = Player("Player B")
+        self.playersPosList.append(p2.getPlayerPos())
+        self.playersNameList.append("Player B")
+
     def display(self):
         print("Below are the start square numbers of snakes")
         s1 = 0
@@ -172,6 +181,16 @@ class Game():
         for l2 in range (0, len(self.laddersEndList)):
             print(self.laddersEndList[l2])
         #next
+        print("Below are the names of the players")
+        p1 = 0
+        for p1 in range (0, len(self.playersNameList)):
+            print(self.playersNameList[p1])
+        #next
+        print("Below are the start square numbers of the players")
+        p2 = 0
+        for p2 in range (0, len(self.playersPosList)):
+            print(self.playersPosList[p2])
+        #next
     #endprocedure
 #endclass
 
@@ -180,4 +199,5 @@ class Game():
 g = Game()
 g.createSnake()
 g.createLadder()
+g.createPlayer()
 g.display()
