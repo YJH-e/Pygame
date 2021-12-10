@@ -148,8 +148,10 @@ class Game():
                     player_hit_list = pygame.sprite.spritecollide(self.p, self.wall_list, False)
                     for foo in player_hit_list:
                         print("hit")
-                        self.player_x_speed = 0
-                        self.player_y_speed = 0
+                        print(self.p.rect.x)
+                        print(self.p.rect.y)
+                        self.player_x_speed = -self.player_x_speed # bounce pacman off wall
+                        self.player_y_speed = -self.player_y_speed
                         self.p.speedSetter(self.player_x_speed, self.player_y_speed)
                     #next
 
