@@ -58,16 +58,13 @@ class tile(pygame.sprite.Sprite):
 #endclass
 
 class Player(pygame.sprite.Sprite):
-    #initialise x_speed for player
-    x_co = 21
-    y_co = 21
-    x_speed = 0
-    y_speed = 0
-
     # Define the constructor for snow 
     def __init__(self):
         # Call the sprite constructor
         super().__init__() 
+        #initialise x_speed for player
+        self.x_speed = 0
+        self.y_speed = 0
         # Create a sprite and put a picture on it
         playerImage = pygame.image.load('PacMan_simple.png')
         self.image = pygame.transform.scale(playerImage, (10, 10))
@@ -77,10 +74,14 @@ class Player(pygame.sprite.Sprite):
         self.rect.y = 21
 
     #End Procedure
-    
-    # Class update function - runs for each pass through the game loop 
 
-    # movePlayer not in update
+    def speedSetter(self, x_speed, y_speed):
+        self.x_speed = x_speed
+        self.y_speed = y_speed
+    #endprocedure
+
+
+    # update
     def update(self):
         #keep player within screen while moving player
         if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.x_speed < 0):
@@ -95,16 +96,16 @@ class Player(pygame.sprite.Sprite):
 #End Class
 
 class Game():
-    done = False
-    player_x_speed = 0
-    player_y_speed = 0
-
-    # Create a list of all sprites 
-    all_sprites_list = pygame.sprite.Group() 
-    # Create a list of tiles for the walls 
-    wall_list = pygame.sprite.Group()
-
     def __init__(self):
+        self.done = False
+
+        self.player_x_speed = 0
+        self.player_y_speed = 0
+
+        # Create a list of all sprites 
+        self.all_sprites_list = pygame.sprite.Group() 
+        # Create a list of tiles for the walls 
+        self.wall_list = pygame.sprite.Group()
         # Create walls on the screen (each tile is 20 x 20 so alter cords)
         for y in range(10): 
             for x in range (10): 
@@ -116,26 +117,11 @@ class Game():
             #next
         #next
         # Create PacMan x 1
-        p = Player()
-        self.all_sprites_list.add(p) # adds it to the group of all Sprites
+        self.p = Player()
+        self.all_sprites_list.add(self.p) # adds it to the group of all Sprites
     #endprocedure
 
     def runGame(self):
-        #game constructor:
-        # Create walls on the screen (each tile is 20 x 20 so alter cords)
-        for y in range(10): 
-            for x in range (10): 
-                if map[x][y] == 1: 
-                    my_wall = tile(BLUE, 20, 20, x*20, y *20) 
-                    self.wall_list.add(my_wall) 
-                    self.all_sprites_list.add(my_wall)
-                #endif
-            #next
-        #next
-        # Create PacMan x 1
-        p = Player()
-        self.all_sprites_list.add(p) # adds it to the group of all Sprites
-        #constructor ends here
         while not self.done:
 
             self.done = False
@@ -148,23 +134,26 @@ class Game():
 
                 if event.type == pygame.KEYDOWN: # - a key is down 
                     if event.key == pygame.K_UP:
-                        self.player_x_speed = -1
+                        self.player_y_speed = -1
                     elif event.key == pygame.K_DOWN:
-                        self.player_x_speed = 1
+                        self.player_y_speed = 1
 
                     elif event.key == pygame.K_LEFT: # - if the left key pressed
-                        self.player_y_speed = -1
+                        self.player_x_speed = -1
                     elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                        self.player_y_speed = 1
+                        self.player_x_speed = 1
 
                     elif event.key == pygame.K_SPACE: #stop player
                         self.player_x_speed = 0
                         self.player_y_speed = 0
                     #endif
-
+                    
+                    #pass speed values into object player
+                    self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+                    
                     # -- Check for collisions between pacman and wall tiles 
-                    player_hit_list = pygame.sprite.spritecollide(p, self.wall_list, False)
-                    print (p.rect.x) 
+                    player_hit_list = pygame.sprite.spritecollide(self.p, self.wall_list, False)
+                    print (self.p.rect.x) 
                     for foo in player_hit_list: 
                         self.player_x_speed = 0
                         self.player_y_speed = 0
@@ -185,14 +174,8 @@ class Game():
         #End While - End of game loop
         pygame.quit()### -- Game Loop
     #endprocedure
-
-    def getPlayerSpeed(self):
-        return self.player_x_speed, self.player_y_speed
-    #endfunction
 #endclass
 
 
 g = Game()
-# PYGAME LOOP
-### -- Game Loop 
 g.runGame()
