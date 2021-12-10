@@ -40,9 +40,6 @@ class Obstacle():
 
 #class Snake (single object)
 class Snake(Obstacle):
-    start = 0
-    end = 0
-
     #snake constructor is in obstacle constructor
     def __init__(self):
         self.end, self.start = super().__init__()
@@ -64,9 +61,6 @@ class Snake(Obstacle):
 
 #class Ladder (single object)
 class Ladder(Obstacle):
-    start = 0
-    end = 0
-
     #snake constructor is in obstacle constructor
     def __init__(self):
         self.start, self.end = super().__init__()
@@ -88,50 +82,37 @@ class Ladder(Obstacle):
 
 #class Player
 class Player():
-    #list holding all player position
-    posOfPlayer = 0
-    nameOfPlayer = ""
-
     #player constructor (initialises player position off the board at square  no.0)
-    def __init__(self, name):
+    def __init__(self):
         self.posOfPlayer = 0
-        self.nameOfPlayer = name
     #endfunction
 
     #get player position
     def getPlayerPos(self):
         return self.posOfPlayer
     #endfunction
-
-    #get player name
-    def getPlayerName(self):
-        return self.nameOfPlayer
-    #endfunction
 #end class
 
 #class Dice
 class Dice():
-    #can have different number of faces and dices/can later be a user input
-    diceFace = 6
-    
     #roll a random integer method
     def roll(self):
+        self.diceFace = 6
         return int(random.randrange(1, self.diceFace) )
     #endfuntion
 #endclass
 
 #class Game
 class Game():
-    snakesStartList = []
-    snakesEndList = []
-    laddersStartList = []
-    laddersEndList = []
-    playersPosList = []
-    playersNameList = []
-    
+    def __init__(self):
+        self.snakesStartList = []
+        self.snakesEndList = []
+        self.laddersStartList = []
+        self.laddersEndList = []
+        self.playersPosList = []
+        self.playersNameList = []
 
-    # Create a snake 5 times 
-    def createSnake(self):
+        #create snakes
         number_of_snakes = 5 # we are creating 5 snakes
         x = 0
         for x in range (0, number_of_snakes):
@@ -139,10 +120,8 @@ class Game():
             self.snakesStartList.append(s.getStartSnake())
             self.snakesEndList.append(s.getEndSnake())
         #Next
-    #endprocedure
 
-    # Create a ladder 5 times   
-    def createLadder(self):
+        #create ladders
         number_of_ladders = 5 # we are creating 5 ladders
         y = 0
         for y in range (0, number_of_ladders):
@@ -150,13 +129,12 @@ class Game():
             self.laddersStartList.append(l.getStartLadder())
             self.laddersEndList.append(l.getEndLadder())
         #Next
-    #endprocedure
 
-    def createPlayer(self):
-        p1 = Player("Player A")
+        #create players
+        p1 = Player()
         self.playersPosList.append(p1.getPlayerPos())
         self.playersNameList.append("Player A")
-        p2 = Player("Player B")
+        p2 = Player()
         self.playersPosList.append(p2.getPlayerPos())
         self.playersNameList.append("Player B")
     #endprocedure
@@ -255,8 +233,5 @@ class Game():
 
 #main program
 g = Game()
-g.createSnake()
-g.createLadder()
-g.createPlayer()
 g.display()
 g.playGame()
