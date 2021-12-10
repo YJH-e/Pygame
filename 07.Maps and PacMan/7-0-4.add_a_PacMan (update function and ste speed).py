@@ -83,15 +83,8 @@ class Player(pygame.sprite.Sprite):
 
     # update
     def update(self):
-        #keep player within screen while moving player
-        if (self.rect.x >= 1 and self.rect.x <= x_size_screen - 1 - 10) or (self.rect.x <= 1 and self.x_speed > 0) or (self.rect.x >= x_size_screen - 1 - 10 and self.x_speed < 0):
-            self.rect.x = self.rect.x + self.x_speed
-        #endif
-        if (self.rect.y >= 1 and self.rect.y <= y_size_screen - 1 - 10) or (self.rect.y <= 1 and self.y_speed > 0) or (self.rect.y >= y_size_screen - 1 - 10 and self.y_speed < 0):
-            self.rect.y = self.rect.y + self.y_speed
-        #endif
-
-        
+        self.rect.x = self.rect.x + self.x_speed
+        self.rect.y = self.rect.y + self.y_speed      
     #endprocedure
 #End Class
 
@@ -153,10 +146,11 @@ class Game():
                     
                     # -- Check for collisions between pacman and wall tiles 
                     player_hit_list = pygame.sprite.spritecollide(self.p, self.wall_list, False)
-                    print (self.p.rect.x) 
-                    for foo in player_hit_list: 
+                    for foo in player_hit_list:
+                        print("hit")
                         self.player_x_speed = 0
                         self.player_y_speed = 0
+                        self.p.speedSetter(self.player_x_speed, self.player_y_speed)
                     #next
 
                 #endif
