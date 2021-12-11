@@ -1,3 +1,8 @@
+#a problem I encountered is that whether the players land on a snake or ladder seems to depend on which check comes first.
+# (if the code checks if the player has landed on a snake before it checks if the player has landed on a ladder, the player seems to always land on a snake but never on a ladder.)
+
+
+
 #PYGAME START-UP
 import pygame
 import random
