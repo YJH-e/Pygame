@@ -176,9 +176,9 @@ class Game():
                 #set player back to position before hitting wall
                 self.p.placeSetter(self.player_x_speed, self.player_y_speed)
                 # bounce pacman off wall
-                self.player_x_speed = 0 #-self.player_x_speed
-                self.player_y_speed = 0 #-self.player_y_speed
-                self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+                #self.player_x_speed = -self.player_x_speed
+                #self.player_y_speed = -self.player_y_speed
+                #self.p.speedSetter(self.player_x_speed, self.player_y_speed)
             #next
             
             # -- Screen background is BLACK 

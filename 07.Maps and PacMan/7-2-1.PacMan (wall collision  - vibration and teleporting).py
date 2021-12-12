@@ -81,18 +81,23 @@ class Player(pygame.sprite.Sprite):
     #endprocedure
 
     def placeSetter(self, x_speed, y_speed):
-        if x_speed > 0 and y_speed == 0:#player moving to the right
-            self.rect.x = self.rect.x - 2
+        if x_speed > 0 and y_speed > 0:#player heading to lower right
+            self.rect.x = self.rect.x - 5
+            self.rect.y = self.rect.y - 5
         #endif
-        if x_speed < 0 and y_speed == 0:#player moving to the left
-            self.rect.x = self.rect.x + 2
+        if x_speed < 0 and y_speed > 0:#player heading to lower left
+            self.rect.x = self.rect.x + 5
+            self.rect.y = self.rect.y - 5
         #endif
-        if x_speed == 0 and y_speed < 0:#player moving up
-            self.rect.y = self.rect.y + 2
+        if x_speed < 0 and y_speed < 0:#player heading to upper left
+            self.rect.x = self.rect.x + 5
+            self.rect.y = self.rect.y + 5
         #endif
-        if x_speed == 0 and y_speed > 0:#player down
-            self.rect.y = self.rect.y - 2
+        if x_speed > 0 and y_speed < 0:#player heading to upper right
+            self.rect.x = self.rect.x - 5
+            self.rect.y = self.rect.y + 5
         #endif
+        return self.rect.x, self.rect.y
     #endprocedure
 
 
@@ -171,16 +176,17 @@ class Game():
                 print("hit")
                 print(self.p.rect.x)
                 print(self.p.rect.y)
-                print(self.player_x_speed)
-                print(self.player_y_speed)
                 #set player back to position before hitting wall
-                self.p.placeSetter(self.player_x_speed, self.player_y_speed)
+                self.p_old_x, self.p_old_y = self.p.placeSetter(self.player_x_speed, self.player_y_speed)
+                self.p.rect.x = self.p_old_x
+                self.p.rect.y = self.p_old_y
                 # bounce pacman off wall
-                self.player_x_speed = 0 #-self.player_x_speed
-                self.player_y_speed = 0 #-self.player_y_speed
+                self.player_x_speed = -self.player_x_speed
+                self.player_y_speed = -self.player_y_speed
                 self.p.speedSetter(self.player_x_speed, self.player_y_speed)
             #next
-            
+            self.p_old_x = self.p.rect.x
+            self.p_old_y = self.p.rect.y
             # -- Screen background is BLACK 
             screen.fill (BLACK) 
             # -- Draw here
