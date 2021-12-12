@@ -166,26 +166,23 @@ class Game():
                     
                     #pass speed values into object player
                     self.p.speedSetter(self.player_x_speed, self.player_y_speed)
-                    
-                    # -- Check for collisions between pacman and wall tiles 
-                    player_hit_list = pygame.sprite.spritecollide(self.p, self.wall_list, False)
-                    for i in player_hit_list:
-                        print("hit")
-                        print(self.p.rect.x)
-                        print(self.p.rect.y)
-                        #set player back to position before hitting wall
-                        #self.p.placeSetter(self.player_x_speed, self.player_y_speed)
-                        # bounce pacman off wall
-                        self.player_x_speed = -self.player_x_speed
-                        self.player_y_speed = -self.player_y_speed
-
-
-                        self.p.speedSetter(self.player_x_speed, self.player_y_speed)
-                    #next
-
                 #endif
             #next
 
+            # -- Check for collisions between pacman and wall tiles 
+            player_hit_list = pygame.sprite.spritecollide(self.p, self.wall_list, False)
+            for i in player_hit_list:
+                print("hit")
+                print(self.p.rect.x)
+                print(self.p.rect.y)
+                #set player back to position before hitting wall
+                #self.p.placeSetter(self.player_x_speed, self.player_y_speed)
+                # bounce pacman off wall
+                self.player_x_speed = -self.player_x_speed
+                self.player_y_speed = -self.player_y_speed
+                self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+            #next
+            
             # -- Screen background is BLACK 
             screen.fill (BLACK) 
             # -- Draw here
