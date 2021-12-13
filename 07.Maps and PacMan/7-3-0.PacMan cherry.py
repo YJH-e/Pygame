@@ -6,7 +6,9 @@
 ## -- Define the class tile which is a sprite 
 #PYGAME START-UP
 
-import pygame 
+import pygame
+import random
+
 # -- Global Constants 
 # -- Colours 
 BLACK = (0,0,0) 
@@ -103,17 +105,43 @@ class Player(pygame.sprite.Sprite):
     #endprocedure
 #End Class
 
+class Cherry():
+    def __init__(self):
+
+        # Call the sprite constructor
+        super().__init__() 
+        # Create a sprite and put a picture on it
+        cherryImage = pygame.image.load('cherry.png')
+        self.image = pygame.transform.scale(cherryImage, (10, 10))
+        # Set the position of the sprite 
+        self.rect = self.image.get_rect() 
+        self.rect.x = random.randrange(21,171)
+        self.rect.y = random.randrange(21,171)
+    #End Procedure
+
+    def getCherryPos(self):
+        return self.rect.x, self.rect.y
+    #endfunction
+        
 class Game():
     def __init__(self):
         self.done = False
-
+        #variables for setting player speed in response to keys pressed
         self.player_x_speed = 0
         self.player_y_speed = 0
+        #list to hold x and y cooridnates of cherreis
+        self.cherry_x = []
+        self.cherry_y = []
+        #list of cherries picked up by player
+        self.cherries_picked = []
 
         # Create a list of all sprites 
         self.all_sprites_list = pygame.sprite.Group() 
         # Create a list of tiles for the walls 
         self.wall_list = pygame.sprite.Group()
+        # Create a list of cherries
+        self.cherry_list = pygame.sprite.Group()
+
         # Create walls on the screen (each tile is 20 x 20 so alter cords)
         for y in range(10): 
             for x in range (10): 
@@ -124,9 +152,50 @@ class Game():
                 #endif
             #next
         #next
+
         # Create PacMan x 1
         self.p = Player()
         self.all_sprites_list.add(self.p) # adds it to the group of all Sprites
+
+        # Create cherries x 5
+        num_of_cherries = 5
+        for j in range (num_of_cherries):
+            self.c = Cherry()
+            #getting position of the new cherry created to check for overlapping
+            temp_cherry_x, temp_cherry_y = self.c.getCherryPos()
+            
+
+            #check if cherry has generated on top of each other or on walls
+            #check if cherries overlap or are adjacent
+            if j > 1:
+                for k in range (0,len(self.cherry_x)):
+                    while temp_cherry_x <= self.cherry_x[k] + 10 and temp_cherry_x >= self.cherry_x[k] - 10 and temp_cherry_y <= self.cherry_y[k] + 10 and temp_cherry_y >= self.cherry_y[k] - 10:
+                        self.c = Cherry()
+                        #getting position of the new cherry created to check for overlapping
+                        temp_cherry_x, temp_cherry_y = self.c.getCherryPos()
+                    #endwhile
+                #next
+            #endif
+            #check if the cherry has generated on a wall
+            cherry_hit_wall_list = pygame.sprite.spritecollide(self.c, self.wall_list, False)
+            for i in cherry_hit_wall_list:
+                self.c = Cherry()
+                #getting position of the new cherry created to check for overlapping
+                temp_cherry_x, temp_cherry_y = self.c.getCherryPos()
+                #check if cherries overlap or are adjacent
+                for k in range (0,len(self.cherry_x)):
+                      while temp_cherry_x <= self.cherry_x[k] + 10 and temp_cherry_x >= self.cherry_x[k] - 10 and temp_cherry_y <= self.cherry_y[k] + 10 and temp_cherry_y >= self.cherry_y[k] - 10:
+                        self.c = Cherry()
+                        #getting position of the new cherry created to check for overlapping
+                        temp_cherry_x, temp_cherry_y = self.c.getCherryPos()
+                    #endwhile
+                #next
+            #next
+            self.cherry_x.append(temp_cherry_x)
+            self.cherry_y.append(temp_cherry_y)
+            self.cherry_list.add(self.c)
+            self.all_sprites_list.add(self.c)
+        #next       
     #endprocedure
 
     def runGame(self):
@@ -176,9 +245,9 @@ class Game():
                 #set player back to position before hitting wall
                 self.p.placeSetter(self.player_x_speed, self.player_y_speed)
                 # bounce pacman off wall
-                #self.player_x_speed = -self.player_x_speed
-                #self.player_y_speed = -self.player_y_speed
-                #self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+                self.player_x_speed = 0 #-self.player_x_speed
+                self.player_y_speed = 0 #-self.player_y_speed
+                self.p.speedSetter(self.player_x_speed, self.player_y_speed)
             #next
             
             # -- Screen background is BLACK 
