@@ -107,9 +107,12 @@ class Player(pygame.sprite.Sprite):
 
 class Cherry():
     def __init__(self):
-
         # Call the sprite constructor
-        super().__init__() 
+        super().__init__()
+
+        ###self.image = pygame.Surface([10,10]) 
+        ###self.image.fill(RED)
+
         # Create a sprite and put a picture on it
         cherryImage = pygame.image.load('cherry.png')
         self.image = pygame.transform.scale(cherryImage, (10, 10))

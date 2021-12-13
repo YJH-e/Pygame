@@ -1,5 +1,3 @@
-#PYGAME START-UP
-
 import pygame 
 # -- Global Constants 
 # -- Colours 
@@ -34,6 +32,7 @@ map = [[1,1,1,1,1,1,1,1,1,1],
 [1,0,1,1,1,0,1,0,0,1], 
 [1,0,0,0,0,0,0,0,0,1], 
 [1,1,1,1,1,1,1,1,1,1]]
+
 
 ## -- Define the class tile which is a sprite 
 class tile(pygame.sprite.Sprite): 

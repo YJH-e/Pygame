@@ -1,11 +1,3 @@
-#I have written a function returning player x and y speeds from Game class after KeyPress
-#I do not know how to get the specific player x and y speeds from Game class to player class for updating player position
-
-
-
-## -- Define the class tile which is a sprite 
-#PYGAME START-UP
-
 import pygame 
 # -- Global Constants 
 # -- Colours 
@@ -42,6 +34,7 @@ map = [[1,1,1,1,1,1,1,1,1,1],
 [1,1,1,1,1,1,1,1,1,1]]
 
 
+## -- Define the class tile which is a sprite 
 class tile(pygame.sprite.Sprite): 
     # Define the constructor for invader 
     def __init__(self, color, width, height, x_ref, y_ref): 
