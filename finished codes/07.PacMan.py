@@ -100,9 +100,6 @@ class Game():
     def __init__(self):
         self.done = False
 
-        self.player_x_speed = 0
-        self.player_y_speed = 0
-
         # Create a list of all sprites 
         self.all_sprites_list = pygame.sprite.Group() 
         # Create a list of tiles for the walls 
@@ -135,26 +132,26 @@ class Game():
 
                 if event.type == pygame.KEYDOWN: # - a key is down 
                     if event.key == pygame.K_UP:
-                        self.player_x_speed = 0
-                        self.player_y_speed = -1
+                        player_x_speed = 0
+                        player_y_speed = -1
                     elif event.key == pygame.K_DOWN:
-                        self.player_x_speed = 0
-                        self.player_y_speed = 1
+                        player_x_speed = 0
+                        player_y_speed = 1
 
                     elif event.key == pygame.K_LEFT: # - if the left key pressed
-                        self.player_x_speed = -1
-                        self.player_y_speed = 0
+                        player_x_speed = -1
+                        player_y_speed = 0
                     elif event.key == pygame.K_RIGHT: # - if the right key pressed
-                        self.player_x_speed = 1
-                        self.player_y_speed = 0
+                        player_x_speed = 1
+                        player_y_speed = 0
 
                     elif event.key == pygame.K_SPACE: #stop player
-                        self.player_x_speed = 0
-                        self.player_y_speed = 0
+                        player_x_speed = 0
+                        player_y_speed = 0
                     #endif
                     
                     #pass speed values into object player
-                    self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+                    self.p.speedSetter(player_x_speed, player_y_speed)
                 #endif
             #next
 
@@ -164,14 +161,14 @@ class Game():
                 print("hit")
                 print(self.p.rect.x)
                 print(self.p.rect.y)
-                print(self.player_x_speed)
-                print(self.player_y_speed)
+                print(player_x_speed)
+                print(player_y_speed)
                 #set player back to position before hitting wall
-                self.p.placeSetter(self.player_x_speed, self.player_y_speed)
+                self.p.placeSetter(player_x_speed, player_y_speed)
                 # bounce pacman off wall
-                self.player_x_speed = 0 #-self.player_x_speed
-                self.player_y_speed = 0 #-self.player_y_speed
-                self.p.speedSetter(self.player_x_speed, self.player_y_speed)
+                player_x_speed = 0 #-self.player_x_speed
+                player_y_speed = 0 #-self.player_y_speed
+                self.p.speedSetter(player_x_speed, player_y_speed)
             #next
             
             # -- Screen background is BLACK 
